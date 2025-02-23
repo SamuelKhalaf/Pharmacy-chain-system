@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Edit Moderator
+    New Admin
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,13 +10,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Edit Moderator</h1>
+                        <h1 class="m-0">New Admin</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('moderator.index')}}">Moderators</a></li>
-                            <li class="breadcrumb-item active">Edit Moderator</li>
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.index')}}">Admins</a></li>
+                            <li class="breadcrumb-item active">New Admin</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -30,17 +30,16 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Moderator</h3>
+                        <h3 class="card-title">New Admin</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form action="{{route('moderator.update',$moderator->id)}}" method="post" autocomplete="off">
+                    <form action="{{route('admin.store')}}" method="post" autocomplete="off">
                         @csrf
-                        @method('PUT')
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{$moderator->name ?? old('name')}}"
+                                <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}"
                                        placeholder="Enter Name">
                                 @error('name')
                                 <small class="text-danger">{{$message}}</small>
@@ -49,8 +48,24 @@
                             <div class="form-group">
                                 <label for="email">Email address</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                       value="{{$moderator->email ?? old('email')}}" placeholder="Enter email">
+                                       value="{{old('email')}}" placeholder="Enter email">
                                 @error('email')
+                                <small class="text-danger">{{$message}}</small>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="Password">
+                                @error('password')
+                                <small class="text-danger">{{$message}}</small>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="password_confirmation">Confirm Password</label>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                       name="password_confirmation" placeholder="confirm password">
+                                @error('password_confirmation')
                                 <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
@@ -60,7 +75,7 @@
                                     @if(!empty($roles))
                                         @foreach($roles as $role)
                                             <option value="{{$role->id}}"
-                                                    @if($role->id == $moderator->role_id) selected @endif>{{$role->name}}</option>
+                                                    @if($role->id == \App\Enums\AdminRole::BranchAdmin) selected @endif>{{$role->name}}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -74,7 +89,7 @@
                                     <option value="" selected>open to select branch name</option>
                                     @if(!empty($branches))
                                         @foreach($branches as $branch)
-                                            <option @if($branch->id == $moderator->branch_id) selected @endif value="{{$branch->id}}">{{$branch->name}}</option>
+                                            <option value="{{$branch->id}}">{{$branch->name}}</option>
                                         @endforeach
                                     @endif
                                 </select>

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Enums\UserRole;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,8 +33,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id',
-        'branch_id'
     ];
 
     /**
@@ -61,15 +58,5 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
-    }
-
-    public function getRoleNameAttribute()
-    {
-        return Role::where('id',$this->role_id)->pluck('name')->first();
-    }
-
-    public function getBranchNameAttribute()
-    {
-        return Branch::where('id',$this->branch_id)->pluck('name')->first() ?? 'No Branch';
     }
 }

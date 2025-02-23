@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 
-interface IUser
+interface ICategory
 {
     public function getAll();
     public function findById($id);

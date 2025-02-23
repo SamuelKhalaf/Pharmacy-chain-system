@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Moderators
+    Admins
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Moderators</h1>
+                        <h1>Admins</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                            <li class="breadcrumb-item active">Moderators</li>
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                            <li class="breadcrumb-item active">Admins</li>
 
                         </ol>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">View Moderator</h3>
+                                <h3 class="card-title">View Admin</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -45,10 +45,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{$moderator->name}}</td>
-                                            <td>{{$moderator->email}}</td>
-                                            <td>{{$moderator->role_name}}</td>
-                                            <td>{{$moderator->branch_name}}</td>
+                                            <td>{{$admin->name}}</td>
+                                            <td>{{$admin->email}}</td>
+                                            <td>{{$admin->role_name}}</td>
+                                            <td>{{$admin->branch_name}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

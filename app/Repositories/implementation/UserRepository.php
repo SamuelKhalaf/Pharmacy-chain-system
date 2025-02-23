@@ -14,7 +14,8 @@ class UserRepository implements IUser
     public function getBy($column,$operator,$value)
     {
         return User::query()
-            ->where($column,$operator,$value)->get();
+            ->where($column,$operator,$value)
+            ->get();
     }
 
     public function findById($id)

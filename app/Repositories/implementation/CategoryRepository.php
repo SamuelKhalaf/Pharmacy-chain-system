@@ -1,20 +1,19 @@
 <?php
 namespace App\Repositories\implementation;
 
-use App\Models\Branch;
-use App\Repositories\IBranch;
+use App\Models\Category;
+use App\Repositories\ICategory;
 
-class BranchRepository implements IBranch
+class CategoryRepository implements ICategory
 {
     public function getAll()
     {
-        return Branch::get();
+        return Category::get();
     }
-
     public function findById($id)
     {
         if ($this->isExists($id)){
-            return Branch::where('id',$id)->first();
+            return Category::where('id',$id)->first();
         }else{
             return false;
         }
@@ -22,13 +21,13 @@ class BranchRepository implements IBranch
 
     public function create(array $data)
     {
-        return Branch::create($data)->id;
+        return Category::create($data)->id;
     }
 
     public function update(array $data, $id)
     {
         if ($this->isExists($id)){
-            return Branch::where('id',$id)->update($data);
+            return Category::where('id',$id)->update($data);
         }else{
             return false;
         }
@@ -37,7 +36,7 @@ class BranchRepository implements IBranch
     public function delete($id)
     {
         if ($this->isExists($id)){
-            return Branch::where('id',$id)->delete();
+            return Category::where('id',$id)->delete();
         }else{
             return false;
         }
@@ -45,6 +44,6 @@ class BranchRepository implements IBranch
 
     public function isExists($id)
     {
-        return Branch::where('id',$id)->exists();
+        return Category::where('id',$id)->exists();
     }
 }

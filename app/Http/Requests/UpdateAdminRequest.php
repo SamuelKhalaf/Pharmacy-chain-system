@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -12,7 +11,7 @@ use Illuminate\Validation\Rule;
  * @property int role_id
  * @property int|null branch_id
  */
-class UpdateModeratorRequest extends FormRequest
+class UpdateAdminRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,7 +30,7 @@ class UpdateModeratorRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $this->moderator->id,
+            'email' => 'required|email|unique:users,email,' . $this->admin->id,
             'role_id' => 'required|exists:roles,id',
             'branch_id' => 'nullable|exists:branches,id',
         ];

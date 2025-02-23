@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\Controllers\admin\ModeratorController;
+use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AuthAdminController;
+use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -9,14 +12,31 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
+Route::get('/start', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
 
-Route::resource('moderator', ModeratorController::class);
+Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function () {
+    // dashboard
+    Route::get('/' , [DashboardController::class, 'index'])->name('home');
+
+    // admin logout
+    Route::post('/admin/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
+
+    // CRUD ADMIN
+    Route::resource('admin', AdminController::class);
+
+    // CRUD CATEGORY
+    Route::resource('category', CategoryController::class)->except('show');
+
+});
+
+Route::group(['prefix' => 'admin'] , function () {
+    // admin login
+    Route::get('/login', [AuthAdminController::class, 'showAdminLoginForm'])->name('admin.login');
+    Route::post('/login', [AuthAdminController::class, 'adminLogin'])->name('admin.post.login');
+
+});
 
 

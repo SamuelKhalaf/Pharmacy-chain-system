@@ -34,14 +34,6 @@ class UserService implements IUserService
     }
 
     /**
-     * @return mixed
-     */
-    public function getAllModerators()
-    {
-        return $this->userRepository->getBy('role_id','!=',UserRole::Customer);
-    }
-
-    /**
      * @param $id
      * @return mixed
      */

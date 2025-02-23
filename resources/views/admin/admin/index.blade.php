@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Moderators
+    Admins
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Moderators</h1>
+                        <h1>Admins</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                            <li class="breadcrumb-item active">Moderators</li>
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                            <li class="breadcrumb-item active">Admins</li>
 
                         </ol>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">All Moderators</h3>
+                                <h3 class="card-title">All Admins</h3>
                             </div>
                             @include('admin.includes.alerts.success')
                             @include('admin.includes.alerts.errors')
@@ -43,29 +43,29 @@
                                         <th>email</th>
                                         <th>role</th>
                                         <th>branch</th>
-                                        <th>control panel</th>
+                                        <th>actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if(!empty($moderators))
-                                        @foreach($moderators as $moderator)
+                                    @if(!empty($admins))
+                                        @foreach($admins as $admin)
                                             <tr>
-                                                <td>{{$moderator->name}}</td>
-                                                <td>{{$moderator->email}}</td>
-                                                <td>{{$moderator->role_name}}</td>
-                                                <td>{{$moderator->branch_name}}</td>
+                                                <td>{{$admin->name}}</td>
+                                                <td>{{$admin->email}}</td>
+                                                <td>{{$admin->role_name}}</td>
+                                                <td>{{$admin->branch_name}}</td>
                                                 <td class="project-actions text-right">
-                                                    <a class="btn btn-primary btn-sm" href="{{route('moderator.show',$moderator->id)}}">
+                                                    <a class="btn btn-primary btn-sm" href="{{route('admin.show',$admin->id)}}">
                                                         <i class="fas fa-folder">
                                                         </i>
                                                         View
                                                     </a>
-                                                    <a class="btn btn-info btn-sm" href="{{route('moderator.edit',$moderator->id)}}">
+                                                    <a class="btn btn-info btn-sm" href="{{route('admin.edit',$admin->id)}}">
                                                         <i class="fas fa-pencil-alt">
                                                         </i>
                                                         Edit
                                                     </a>
-                                                    <form action="{{ route('moderator.destroy', $moderator->id) }}" method="POST" style="display: inline;">
+                                                    <form action="{{ route('admin.destroy', $admin->id) }}" method="POST" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">

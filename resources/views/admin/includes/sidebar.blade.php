@@ -36,39 +36,39 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{route('admin.dashboard')}}" class="nav-link {{setActive('admin.dashboard')}}">
+                    <a href="{{route('home')}}" class="nav-link {{setActive('home')}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
                         </p>
                     </a>
                 </li>
-                <li class="nav-item {{setMenuOpen('admin/moderator')}}">
-                    <a href="" class="nav-link {{setActive('moderator.create')}} {{setActive('moderator.index')}}">
+                <li class="nav-item {{setMenuOpen('dashboard/admin')}}">
+                    <a href="" class="nav-link {{setActive('admin.create')}} {{setActive('admin.index')}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
-                            Moderators
+                            Admins
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('moderator.index')}}" class="nav-link {{setActive('moderator.index')}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Moderators</p>
+                            <a href="{{route('admin.index')}}" class="nav-link {{setActive('admin.index')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>All Admins</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('moderator.create')}}" class="nav-link {{setActive('moderator.create')}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>New Moderator</p>
+                            <a href="{{route('admin.create')}}" class="nav-link {{setActive('admin.create')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>New Admin</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{setMenuOpen('categories')}}">
-                    <a href="" class="nav-link ">
-                        <i class="nav-icon fas fa-th"></i>
+                <li class="nav-item {{setMenuOpen('dashboard/category')}}">
+                    <a href="" class="nav-link {{setActive('category.create')}} {{setActive('category.index')}}">
+                        <i class="nav-icon fas fa-layer-group"></i>
                         <p>
                             Categories
                             <i class="right fas fa-angle-left"></i>
@@ -76,15 +76,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Active Page</p>
+                            <a href="{{route('category.index')}}" class="nav-link {{setActive('category.index')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>All Categories</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Inactive Page</p>
+                            <a href="{{route('category.create')}}" class="nav-link {{setActive('category.create')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>New category</p>
                             </a>
                         </li>
                     </ul>

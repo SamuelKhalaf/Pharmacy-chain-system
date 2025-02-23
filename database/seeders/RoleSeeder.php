@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UserRole;
+use App\Enums\AdminRole;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +15,8 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         DB::table('roles')->insert([
-            ['id' => UserRole::SuperAdmin->value, 'name' => 'Super Admin'],
-            ['id' => UserRole::BranchAdmin->value, 'name' => 'Branch Admin'],
-            ['id' => UserRole::Customer->value, 'name' => 'Customer'],
+            ['id' => AdminRole::SuperAdmin->value, 'name' => 'Super Admin'],
+            ['id' => AdminRole::BranchAdmin->value, 'name' => 'Branch Admin'],
         ]);
     }
 }

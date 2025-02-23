@@ -1,11 +1,10 @@
 <?php
 namespace App\Enums;
 
-enum UserRole: int
+enum AdminRole: int
 {
     case SuperAdmin = 1;
     case BranchAdmin = 2;
-    case Customer = 3;
 
     public static function values(): array
     {
@@ -17,7 +16,6 @@ enum UserRole: int
         return match ($roleId) {
             self::SuperAdmin->value => 'Super Admin',
             self::BranchAdmin->value => 'Branch Admin',
-            self::Customer->value => 'Customer',
             default => null,
         };
     }

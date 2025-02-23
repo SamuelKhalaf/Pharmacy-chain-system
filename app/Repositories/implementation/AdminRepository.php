@@ -1,20 +1,27 @@
 <?php
 namespace App\Repositories\implementation;
 
-use App\Models\Branch;
-use App\Repositories\IBranch;
+use App\Models\Admin;
+use App\Repositories\IAdmin;
 
-class BranchRepository implements IBranch
+class AdminRepository implements IAdmin
 {
     public function getAll()
     {
-        return Branch::get();
+        return Admin::get();
+    }
+
+    public function getBy($column,$operator,$value)
+    {
+        return Admin::query()
+            ->where($column,$operator,$value)
+            ->get();
     }
 
     public function findById($id)
     {
         if ($this->isExists($id)){
-            return Branch::where('id',$id)->first();
+            return Admin::where('id',$id)->first();
         }else{
             return false;
         }
@@ -22,13 +29,13 @@ class BranchRepository implements IBranch
 
     public function create(array $data)
     {
-        return Branch::create($data)->id;
+        return Admin::create($data)->id;
     }
 
     public function update(array $data, $id)
     {
         if ($this->isExists($id)){
-            return Branch::where('id',$id)->update($data);
+            return Admin::where('id',$id)->update($data);
         }else{
             return false;
         }
@@ -37,7 +44,7 @@ class BranchRepository implements IBranch
     public function delete($id)
     {
         if ($this->isExists($id)){
-            return Branch::where('id',$id)->delete();
+            return Admin::where('id',$id)->delete();
         }else{
             return false;
         }
@@ -45,6 +52,6 @@ class BranchRepository implements IBranch
 
     public function isExists($id)
     {
-        return Branch::where('id',$id)->exists();
+        return Admin::where('id',$id)->exists();
     }
 }

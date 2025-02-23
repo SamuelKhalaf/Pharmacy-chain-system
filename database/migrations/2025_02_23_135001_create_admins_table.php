@@ -11,12 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('phone_number')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->foreignId('role_id')
+                ->default(\App\Enums\AdminRole::BranchAdmin->value)
+                ->constrained('roles')
+                ->onDelete('cascade');
+
+            $table->foreignId('branch_id')
+                ->nullable()
+                ->constrained('branches')
+                ->onDelete('set null');
+
             $table->rememberToken();
             $table->timestamps();
         });
@@ -27,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('admins');
     }
 };
