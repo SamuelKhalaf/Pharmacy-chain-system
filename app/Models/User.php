@@ -3,11 +3,24 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRole;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * class User
+ *
+ * @property string name
+ * @property string email
+ * @property Carbon|null email_verified_at
+ * @property string password
+ * @property int|null role_id
+ * @property int|null branch_id
+ * @property string remember_token
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -21,6 +34,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'branch_id'
     ];
 
     /**
@@ -42,4 +57,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function getRoleNameAttribute()
+    {
+        return Role::where('id',$this->role_id)->pluck('name')->first();
+    }
+
+    public function getBranchNameAttribute()
+    {
+        return Branch::where('id',$this->branch_id)->pluck('name')->first() ?? 'No Branch';
+    }
 }

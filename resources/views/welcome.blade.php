@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.admin')
 @section('title')
     welcome
 @endsection
@@ -33,7 +33,8 @@
                                 <h5 class="card-title">Card title</h5>
 
                                 <p class="card-text">
-                                    Some quick example text to build on the card title and make up the bulk of the card's
+                                    Some quick example text to build on the card title and make up the bulk of the
+                                    card's
                                     content.
                                 </p>
 
@@ -47,7 +48,8 @@
                                 <h5 class="card-title">Card title</h5>
 
                                 <p class="card-text">
-                                    Some quick example text to build on the card title and make up the bulk of the card's
+                                    Some quick example text to build on the card title and make up the bulk of the
+                                    card's
                                     content.
                                 </p>
                                 <a href="#" class="card-link">Card link</a>
@@ -64,7 +66,8 @@
                             <div class="card-body">
                                 <h6 class="card-title">Special title treatment</h6>
 
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
@@ -76,7 +79,8 @@
                             <div class="card-body">
                                 <h6 class="card-title">Special title treatment</h6>
 
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
-@extends('layouts.master')
+@extends('layouts.admin')
 @section('title')
-    Admin Dashboard
+    Dashboard
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -14,8 +14,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -119,7 +119,8 @@
                                          style="position: relative; height: 300px;">
                                         <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
                                     </div>
-                                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                                    <div class="chart tab-pane" id="sales-chart"
+                                         style="position: relative; height: 300px;">
                                         <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
                                     </div>
                                 </div>
@@ -137,7 +138,8 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                                    <button type="button" class="btn btn-tool" title="Contacts"
+                                            data-widget="chat-pane-toggle">
                                         <i class="fas fa-comments"></i>
                                     </button>
                                     <button type="button" class="btn btn-tool" data-card-widget="remove">
@@ -156,7 +158,8 @@
                                             <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
                                         </div>
                                         <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg"
+                                             alt="message user image">
                                         <!-- /.direct-chat-img -->
                                         <div class="direct-chat-text">
                                             Is this template really for free? That's unbelievable!
@@ -172,7 +175,8 @@
                                             <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
                                         </div>
                                         <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg"
+                                             alt="message user image">
                                         <!-- /.direct-chat-img -->
                                         <div class="direct-chat-text">
                                             You better believe it!
@@ -188,7 +192,8 @@
                                             <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
                                         </div>
                                         <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg"
+                                             alt="message user image">
                                         <!-- /.direct-chat-img -->
                                         <div class="direct-chat-text">
                                             Working with AdminLTE on a great new app! Wanna join?
@@ -204,7 +209,8 @@
                                             <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
                                         </div>
                                         <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg"
+                                             alt="message user image">
                                         <!-- /.direct-chat-img -->
                                         <div class="direct-chat-text">
                                             I would love to.
@@ -221,7 +227,8 @@
                                     <ul class="contacts-list">
                                         <li>
                                             <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user1-128x128.jpg" alt="User Avatar">
+                                                <img class="contacts-list-img" src="dist/img/user1-128x128.jpg"
+                                                     alt="User Avatar">
 
                                                 <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -236,7 +243,8 @@
                                         <!-- End Contact Item -->
                                         <li>
                                             <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user7-128x128.jpg" alt="User Avatar">
+                                                <img class="contacts-list-img" src="dist/img/user7-128x128.jpg"
+                                                     alt="User Avatar">
 
                                                 <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -251,7 +259,8 @@
                                         <!-- End Contact Item -->
                                         <li>
                                             <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user3-128x128.jpg" alt="User Avatar">
+                                                <img class="contacts-list-img" src="dist/img/user3-128x128.jpg"
+                                                     alt="User Avatar">
 
                                                 <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -266,7 +275,8 @@
                                         <!-- End Contact Item -->
                                         <li>
                                             <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user5-128x128.jpg" alt="User Avatar">
+                                                <img class="contacts-list-img" src="dist/img/user5-128x128.jpg"
+                                                     alt="User Avatar">
 
                                                 <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -281,7 +291,8 @@
                                         <!-- End Contact Item -->
                                         <li>
                                             <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user6-128x128.jpg" alt="User Avatar">
+                                                <img class="contacts-list-img" src="dist/img/user6-128x128.jpg"
+                                                     alt="User Avatar">
 
                                                 <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -296,7 +307,8 @@
                                         <!-- End Contact Item -->
                                         <li>
                                             <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user8-128x128.jpg" alt="User Avatar">
+                                                <img class="contacts-list-img" src="dist/img/user8-128x128.jpg"
+                                                     alt="User Avatar">
 
                                                 <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -318,7 +330,8 @@
                             <div class="card-footer">
                                 <form action="#" method="post">
                                     <div class="input-group">
-                                        <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                        <input type="text" name="message" placeholder="Type Message ..."
+                                               class="form-control">
                                         <span class="input-group-append">
                       <button type="button" class="btn btn-primary">Send</button>
                     </span>
@@ -357,7 +370,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </span>
                                         <!-- checkbox -->
-                                        <div  class="icheck-primary d-inline ml-2">
+                                        <div class="icheck-primary d-inline ml-2">
                                             <input type="checkbox" value="" name="todo1" id="todoCheck1">
                                             <label for="todoCheck1"></label>
                                         </div>
@@ -376,7 +389,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                       <i class="fas fa-ellipsis-v"></i>
                     </span>
-                                        <div  class="icheck-primary d-inline ml-2">
+                                        <div class="icheck-primary d-inline ml-2">
                                             <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
                                             <label for="todoCheck2"></label>
                                         </div>
@@ -392,7 +405,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                       <i class="fas fa-ellipsis-v"></i>
                     </span>
-                                        <div  class="icheck-primary d-inline ml-2">
+                                        <div class="icheck-primary d-inline ml-2">
                                             <input type="checkbox" value="" name="todo3" id="todoCheck3">
                                             <label for="todoCheck3"></label>
                                         </div>
@@ -408,7 +421,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                       <i class="fas fa-ellipsis-v"></i>
                     </span>
-                                        <div  class="icheck-primary d-inline ml-2">
+                                        <div class="icheck-primary d-inline ml-2">
                                             <input type="checkbox" value="" name="todo4" id="todoCheck4">
                                             <label for="todoCheck4"></label>
                                         </div>
@@ -424,7 +437,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                       <i class="fas fa-ellipsis-v"></i>
                     </span>
-                                        <div  class="icheck-primary d-inline ml-2">
+                                        <div class="icheck-primary d-inline ml-2">
                                             <input type="checkbox" value="" name="todo5" id="todoCheck5">
                                             <label for="todoCheck5"></label>
                                         </div>
@@ -440,12 +453,13 @@
                       <i class="fas fa-ellipsis-v"></i>
                       <i class="fas fa-ellipsis-v"></i>
                     </span>
-                                        <div  class="icheck-primary d-inline ml-2">
+                                        <div class="icheck-primary d-inline ml-2">
                                             <input type="checkbox" value="" name="todo6" id="todoCheck6">
                                             <label for="todoCheck6"></label>
                                         </div>
                                         <span class="text">Let theme shine like a star</span>
-                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 month</small>
+                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1
+                                            month</small>
                                         <div class="tools">
                                             <i class="fas fa-edit"></i>
                                             <i class="fas fa-trash-o"></i>
@@ -455,7 +469,9 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
+                                <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i>
+                                    Add item
+                                </button>
                             </div>
                         </div>
                         <!-- /.card -->
@@ -476,7 +492,8 @@
                                     <button type="button" class="btn btn-primary btn-sm daterange" title="Date range">
                                         <i class="far fa-calendar-alt"></i>
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse"
+                                            title="Collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                 </div>
@@ -527,27 +544,31 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                <canvas class="chart" id="line-chart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer bg-transparent">
                                 <div class="row">
                                     <div class="col-4 text-center">
-                                        <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
+                                        <input type="text" class="knob" data-readonly="true" value="20" data-width="60"
+                                               data-height="60"
                                                data-fgColor="#39CCCC">
 
                                         <div class="text-white">Mail-Orders</div>
                                     </div>
                                     <!-- ./col -->
                                     <div class="col-4 text-center">
-                                        <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
+                                        <input type="text" class="knob" data-readonly="true" value="50" data-width="60"
+                                               data-height="60"
                                                data-fgColor="#39CCCC">
 
                                         <div class="text-white">Online</div>
                                     </div>
                                     <!-- ./col -->
                                     <div class="col-4 text-center">
-                                        <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
+                                        <input type="text" class="knob" data-readonly="true" value="30" data-width="60"
+                                               data-height="60"
                                                data-fgColor="#39CCCC">
 
                                         <div class="text-white">In-Store</div>
@@ -572,7 +593,8 @@
                                 <div class="card-tools">
                                     <!-- button with a dropdown -->
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
+                                        <button type="button" class="btn btn-success btn-sm dropdown-toggle"
+                                                data-toggle="dropdown" data-offset="-52">
                                             <i class="fas fa-bars"></i>
                                         </button>
                                         <div class="dropdown-menu" role="menu">
@@ -612,10 +634,10 @@
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
-{{--        <div class="p-3">--}}
-{{--            <h5>Title</h5>--}}
-{{--            <p>Sidebar content</p>--}}
-{{--        </div>--}}
+        {{--        <div class="p-3">--}}
+        {{--            <h5>Title</h5>--}}
+        {{--            <p>Sidebar content</p>--}}
+        {{--        </div>--}}
     </aside>
     <!-- /.control-sidebar -->
 @endsection
