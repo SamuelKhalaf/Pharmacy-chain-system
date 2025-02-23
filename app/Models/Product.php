@@ -19,4 +19,9 @@ class Product extends Model
         'description',
         'category_id',
     ];
+
+    public function getCategoryNameAttribute()
+    {
+        return Category::where('id' , $this->category_id)->pluck('name')->first();
+    }
 }

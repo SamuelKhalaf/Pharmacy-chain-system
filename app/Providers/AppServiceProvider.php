@@ -8,8 +8,10 @@ use App\Repositories\ICategory;
 use App\Repositories\implementation\AdminRepository;
 use App\Repositories\implementation\BranchRepository;
 use App\Repositories\implementation\CategoryRepository;
+use App\Repositories\implementation\ProductRepository;
 use App\Repositories\implementation\RoleRepository;
 use App\Repositories\implementation\UserRepository;
+use App\Repositories\IProduct;
 use App\Repositories\IRole;
 use App\Repositories\IUser;
 use App\Services\IAdminService;
@@ -20,8 +22,10 @@ use App\Services\implementation\AdminService;
 use App\Services\implementation\AuthAdminAdminService;
 use App\Services\implementation\BranchService;
 use App\Services\implementation\CategoryService;
+use App\Services\implementation\ProductService;
 use App\Services\implementation\RoleService;
 use App\Services\implementation\UserService;
+use App\Services\IProductService;
 use App\Services\IRoleService;
 use App\Services\IUserService;
 use Illuminate\Support\ServiceProvider;
@@ -42,6 +46,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IAuthAdminService::class,AuthAdminAdminService::class);
         $this->app->bind(ICategory::class,CategoryRepository::class);
         $this->app->bind(ICategoryService::class,CategoryService::class);
+        $this->app->bind(IProduct::class,ProductRepository::class);
+        $this->app->bind(IProductService::class,ProductService::class);
     }
 
     /**
