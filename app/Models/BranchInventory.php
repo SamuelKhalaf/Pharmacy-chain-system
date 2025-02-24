@@ -16,6 +16,8 @@ class BranchInventory extends Model
 {
     use HasFactory;
 
+    protected $table = 'branch_inventory';
+
     protected $fillable = [
         'branch_id',
         'product_id',

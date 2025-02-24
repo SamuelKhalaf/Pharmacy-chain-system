@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\IAdmin;
 use App\Repositories\IBranch;
+use App\Repositories\IBranchInventory;
 use App\Repositories\ICategory;
 use App\Repositories\implementation\AdminRepository;
+use App\Repositories\implementation\BranchInventoryRepository;
 use App\Repositories\implementation\BranchRepository;
 use App\Repositories\implementation\CategoryRepository;
 use App\Repositories\implementation\ProductRepository;
@@ -16,10 +18,12 @@ use App\Repositories\IRole;
 use App\Repositories\IUser;
 use App\Services\IAdminService;
 use App\Services\IAuthAdminService;
+use App\Services\IBranchInventoryService;
 use App\Services\IBranchService;
 use App\Services\ICategoryService;
 use App\Services\implementation\AdminService;
 use App\Services\implementation\AuthAdminAdminService;
+use App\Services\implementation\BranchInventoryService;
 use App\Services\implementation\BranchService;
 use App\Services\implementation\CategoryService;
 use App\Services\implementation\ProductService;
@@ -48,6 +52,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ICategoryService::class,CategoryService::class);
         $this->app->bind(IProduct::class,ProductRepository::class);
         $this->app->bind(IProductService::class,ProductService::class);
+        $this->app->bind(IBranchInventory::class,BranchInventoryRepository::class);
+        $this->app->bind(IBranchInventoryService::class,BranchInventoryService::class);
     }
 
     /**

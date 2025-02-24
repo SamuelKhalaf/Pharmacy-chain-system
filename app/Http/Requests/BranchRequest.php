@@ -2,18 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\AdminRole;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-
 /**
  * @property string name
- * @property string email
- * @property string password
- * @property int role_id
- * @property int|null branch_id
+ * @property string location
  */
-class CreateAdminRequest extends FormRequest
+class BranchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,10 +26,7 @@ class CreateAdminRequest extends FormRequest
     {
         return [
             'name' => 'required|min:4|max:50|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-            'role_id' => ['required',Rule::in(AdminRole::values())],
-            'branch_id' => 'nullable|exists:branches,id'
+            'location' => 'required|min:4|max:30|string',
         ];
     }
 }

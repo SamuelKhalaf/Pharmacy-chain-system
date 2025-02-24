@@ -14,7 +14,7 @@
                 <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->name}}</a>
             </div>
         </div>
 
@@ -91,7 +91,7 @@
                 </li>
                 <li class="nav-item {{setMenuOpen('dashboard/product')}}">
                     <a href="" class="nav-link {{setActive('product.create')}} {{setActive('product.index')}}">
-                        <i class="nav-icon fas fa-box-open"></i>
+                        <i class="nav-icon fas fa-briefcase"></i>
                         <p>
                             Products
                             <i class="right fas fa-angle-left"></i>
@@ -112,6 +112,53 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{setMenuOpen('dashboard/branch')}}">
+                    <a href="" class="nav-link {{setActive('branch.create')}} {{setActive('branch.index')}}">
+                        <i class="nav-icon fas fa-map-marked-alt"></i>
+                        <p>
+                            Branches
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('branch.index')}}" class="nav-link {{setActive('branch.index')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>All Branches</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('branch.create')}}" class="nav-link {{setActive('branch.create')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>New branch</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{setMenuOpen('dashboard/inventory')}}">
+                    <a href="" class="nav-link {{setActive('inventory.create')}} {{setActive('inventory.index')}}">
+                        <i class="nav-icon fas fa-store"></i>
+                        <p>
+                            Inventories
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('inventory.index')}}" class="nav-link {{setActive('inventory.index')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>All Inventory Products</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('inventory.create')}}" class="nav-link {{setActive('inventory.create')}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>New inventory Product/s</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>

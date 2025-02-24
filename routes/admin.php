@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AuthAdminController;
+use App\Http\Controllers\admin\BranchController;
+use App\Http\Controllers\admin\BranchInventoryController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProductController;
@@ -33,6 +35,12 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function
 
     // CRUD PRODUCT
     Route::resource('product', ProductController::class);
+
+    // CRUD BRANCHES
+    Route::resource('branch', BranchController::class);
+
+    // CRUD BranchInventory
+    Route::resource('inventory', BranchInventoryController::class);
 
 });
 
