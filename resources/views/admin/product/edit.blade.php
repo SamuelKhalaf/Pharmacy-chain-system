@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label for="category">Select Category</label>
                                 <select class="form-control" id="category" name="category_id">
-                                    @if(!empty($categories))
+                                    @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}" @if($category->id == $product->category_id) selected @endif >{{$category->name}}</option>
                                         @endforeach

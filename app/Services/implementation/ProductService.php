@@ -1,8 +1,10 @@
 <?php
 namespace App\Services\implementation;
 
+use App\Repositories\IBranchInventory;
 use App\Repositories\IProduct;
 use App\Services\IProductService;
+use Illuminate\Support\Facades\DB;
 
 /**
  *
@@ -13,13 +15,16 @@ class ProductService implements IProductService
      * @var IProduct
      */
     protected IProduct $productRepository;
+    protected IBranchInventory $branchInventoryRepository;
 
     /**
      * @param IProduct $productRepository
+     * @param IBranchInventory $branchInventoryRepository
      */
-    public function __construct(IProduct $productRepository)
+    public function __construct(IProduct $productRepository,IBranchInventory $branchInventoryRepository)
     {
         $this->productRepository = $productRepository;
+        $this->branchInventoryRepository = $branchInventoryRepository;
     }
 
     /**
@@ -64,6 +69,34 @@ class ProductService implements IProductService
      */
     public function deleteProduct($id)
     {
-        return $this->productRepository->delete($id);
+        try {
+            DB::beginTransaction();
+
+            $this->branchInventoryRepository->deleteSpecificProductsFromAllInventories($id);
+            $this->productRepository->delete($id);
+
+            DB::commit();
+            return true;
+
+        }catch (\Exception $e){
+            DB::rollBack();
+            return false;
+        }
+    }
+
+    public function deleteProductByCategoryId($category_id)
+    {
+        try {
+            DB::beginTransaction();
+            $productIds = $this->productRepository->deleteProductsByCategoryId($category_id);
+
+            $this->branchInventoryRepository->deleteSpecificProductsFromAllInventories($productIds);
+
+            DB::commit();
+            return true;
+        }catch (\Exception $e){
+            DB::rollBack();
+            return false;
+        }
     }
 }

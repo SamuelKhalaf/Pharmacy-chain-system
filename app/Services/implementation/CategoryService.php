@@ -2,7 +2,11 @@
 namespace App\Services\implementation;
 
 use App\Repositories\ICategory;
+use App\Repositories\IProduct;
 use App\Services\ICategoryService;
+use App\Services\IProductService;
+use Illuminate\Support\Facades\DB;
+
 /**
  *
  */
@@ -12,13 +16,15 @@ class CategoryService implements ICategoryService
      * @var ICategory
      */
     protected ICategory $categoryRepository;
+    protected IProductService $productService;
 
     /**
      * @param ICategory $categoryRepository
      */
-    public function __construct(ICategory $categoryRepository)
+    public function __construct(ICategory $categoryRepository,IProductService $productService)
     {
         $this->categoryRepository = $categoryRepository;
+        $this->productService = $productService;
     }
 
     /**
@@ -63,6 +69,17 @@ class CategoryService implements ICategoryService
      */
     public function deleteCategory($id)
     {
-        return $this->categoryRepository->delete($id);
+        try {
+            DB::beginTransaction();
+            $this->productService->deleteProductByCategoryId($id);
+
+            $this->categoryRepository->delete($id);
+
+            DB::commit();
+            return true;
+        }catch (\Exception $e){
+            DB::rollBack();
+            return false;
+        }
     }
 }

@@ -2,10 +2,18 @@
 namespace App\Repositories\implementation;
 
 use App\Models\Branch;
+use App\Models\BranchInventory;
 use App\Repositories\IBranch;
+use App\Repositories\IBranchInventory;
 
 class BranchRepository implements IBranch
 {
+    protected IBranchInventory $branchInventoryRepository;
+
+    public function __construct(IBranchInventory $branchInventoryRepository)
+    {
+        $this->branchInventoryRepository = $branchInventoryRepository;
+    }
     public function getAll()
     {
         return Branch::get();
@@ -46,5 +54,11 @@ class BranchRepository implements IBranch
     public function isExists($id)
     {
         return Branch::where('id',$id)->exists();
+    }
+
+    public function getNewBranches()
+    {
+        $allInventories = $this->branchInventoryRepository->getAllInventoriesByBranchID();
+        return Branch::whereNotIn('id',$allInventories)->get();
     }
 }

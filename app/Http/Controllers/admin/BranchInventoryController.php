@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BranchInventoryRequest;
+use App\Http\Requests\CreateBranchInventoryRequest;
+use App\Http\Requests\UpdateBranchInventoryRequest;
+use App\Models\BranchInventory;
 use App\Services\IBranchInventoryService;
 use App\Services\IBranchService;
 use App\Services\IProductService;
@@ -26,10 +28,15 @@ class BranchInventoryController extends Controller
      */
     public function index()
     {
-//        $inventories = $this->branchInventoryService->getAllInventories();
-//        $branches = $this->branchService->getAllBranches();
-//        $products = $this->productService->getAllProducts();
-        return view('admin.inventory.index');
+        $branches = $this->branchService->getAllBranches();
+        return view('admin.inventory.index',compact('branches'));
+    }
+
+    // ajax method
+    public function allInventoryProducts(Request $request)
+    {
+        $branchInventory = $this->branchInventoryService->getAllInventoryProducts($request->branch_id);
+        return response()->json(['data' => $branchInventory]);
     }
 
     /**
@@ -37,49 +44,68 @@ class BranchInventoryController extends Controller
      */
     public function create()
     {
-        $branches = $this->branchService->getAllBranches();
+        $newBranches = $this->branchService->getNewBranches();
         $products = $this->productService->getAllProducts();
-        return view('admin.inventory.create',compact(['branches', 'products']));
+        return view('admin.inventory.create',compact(['newBranches', 'products']));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BranchInventoryRequest $request)
+    public function store(CreateBranchInventoryRequest $request)
     {
         $data = $request->validated();
-        $created = $this->branchInventoryService->storeInventoryProducts($data);
+        $created = $this->branchInventoryService->storeNewInventoryProducts($data);
+        if ($created) {
+            return redirect()->route('inventory.index')->with('success', 'Inventory Product/s stored successfully.');
+        } else {
+            return redirect()->route('inventory.create')->with('error', 'An error occurred while store the Inventory product/s data');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($branch_id,$product_id)
     {
-        //
+        $inventory = $this->branchInventoryService->getOneInventoryProduct($branch_id,$product_id);
+        return view('admin.inventory.view',compact('inventory'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($branch_id,$product_id)
     {
-        //
+        $inventory = $this->branchInventoryService->getOneInventoryProduct($branch_id,$product_id);
+        return view('admin.inventory.edit',compact('inventory'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateBranchInventoryRequest $request, $branch_id,$product_id)
     {
-        //
+        $data = $request->validated();
+
+        $updated =$this->branchInventoryService->updateSpecificInventoryProduct($data,$branch_id,$product_id);
+        if ($updated) {
+            return redirect()->route('inventory.index')->with('success', 'Inventory Product updated successfully.');
+        } else {
+            return redirect()->route('inventory.edit')->with('error', 'An error occurred while update the Inventory product data');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($branch_id,$product_id)
     {
-        //
+        $deleted = $this->branchInventoryService->deleteSpecificInventoryProduct($branch_id,$product_id);
+        if ($deleted) {
+            return redirect()->route('inventory.index')->with('success', 'Inventory Product deleted successfully.');
+        } else {
+            return redirect()->route('inventory.index')->with('error', 'An error occurred while delete the Inventory product data');
+        }
     }
 }

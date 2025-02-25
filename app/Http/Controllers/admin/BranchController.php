@@ -5,8 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BranchRequest;
 use App\Models\Branch;
+use App\Services\IBranchInventoryService;
 use App\Services\IBranchService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BranchController extends Controller
 {
@@ -85,9 +87,10 @@ class BranchController extends Controller
     public function destroy(string $id)
     {
         $deleted = $this->branchService->deleteBranch($id);
-        if (!$deleted){
+        if ($deleted){
+            return redirect()->route('branch.index')->with(['success' => 'branch data deleted successfully']);
+        }else{
             return redirect()->route('branch.index')->with(['error' => 'an error occurred while delete the branch data']);
         }
-        return redirect()->route('branch.index')->with(['success' => 'branch data deleted successfully']);
     }
 }

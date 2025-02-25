@@ -8,4 +8,5 @@ interface IProductService
     public function createProduct(array $data);
     public function updateProduct(array $data,$id);
     public function deleteProduct($id);
+    public function deleteProductByCategoryId($category_id);
 }

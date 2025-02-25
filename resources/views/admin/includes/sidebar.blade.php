@@ -54,13 +54,13 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('admin.index')}}" class="nav-link {{setActive('admin.index')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-stream nav-icon"></i>
                                 <p>All Admins</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('admin.create')}}" class="nav-link {{setActive('admin.create')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-plus-square nav-icon"></i>
                                 <p>New Admin</p>
                             </a>
                         </li>
@@ -77,13 +77,13 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('category.index')}}" class="nav-link {{setActive('category.index')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-stream nav-icon"></i>
                                 <p>All Categories</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('category.create')}}" class="nav-link {{setActive('category.create')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-plus-square nav-icon"></i>
                                 <p>New category</p>
                             </a>
                         </li>
@@ -100,13 +100,13 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('product.index')}}" class="nav-link {{setActive('product.index')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-stream nav-icon"></i>
                                 <p>All Products</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('product.create')}}" class="nav-link {{setActive('product.create')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-plus-square nav-icon"></i>
                                 <p>New product</p>
                             </a>
                         </li>
@@ -123,13 +123,13 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('branch.index')}}" class="nav-link {{setActive('branch.index')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-stream nav-icon"></i>
                                 <p>All Branches</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('branch.create')}}" class="nav-link {{setActive('branch.create')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-plus-square nav-icon"></i>
                                 <p>New branch</p>
                             </a>
                         </li>
@@ -146,19 +146,27 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('inventory.index')}}" class="nav-link {{setActive('inventory.index')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
-                                <p>All Inventory Products</p>
+                                <i class="fas fa-stream nav-icon"></i>
+                                <p>All Inventory Product/s</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('inventory.create')}}" class="nav-link {{setActive('inventory.create')}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
+                                <i class="fas fa-plus-square nav-icon"></i>
                                 <p>New inventory Product/s</p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{route('products.transfer')}}" class="nav-link">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>
+                            Transfer Products
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>

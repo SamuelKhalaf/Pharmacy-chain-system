@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Edit Branch
+    Edit Inventory Product
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,13 +10,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Edit Branch</h1>
+                        <h1 class="m-0">Edit Inventory Product</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('branch.index')}}">Branches</a></li>
-                            <li class="breadcrumb-item active">Edit Branch</li>
+                            <li class="breadcrumb-item"><a href="{{route('inventory.index')}}">Inventories</a></li>
+                            <li class="breadcrumb-item active">Edit Inventory Product</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -30,27 +30,32 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Branch</h3>
+                        <h3 class="card-title">Edit Inventory Product</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form action="{{route('branch.update',$branch->id)}}" method="post" autocomplete="off">
+                    <form action="{{route('inventory.update',[$inventory->branch_id,$inventory->product_id])}}" method="post" autocomplete="off">
                         @csrf
                         @method('PUT')
                         <div class="card-body">
+                            <p>Edit Inventory
+                                <span class="text-success"><b>{{$inventory->branch_name}}</b></span>
+                                Product
+                                <span class="text-success"><b>{{$inventory->product_name}}</b></span>
+                            </p>
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{$branch->name ?? old('name')}}"
-                                       placeholder="Enter Name">
-                                @error('name')
+                                <label for="quantity">Product Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" value="{{$inventory->quantity ?? old('quantity')}}"
+                                       placeholder="Enter Product Quantity" min="1">
+                                @error('quantity')
                                 <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="location">Location</label>
-                                <input type="text" class="form-control" id="location" name="location" value="{{$branch->location ?? old('location')}}"
-                                       placeholder="Enter Location">
-                                @error('location')
+                                <label for="price">Product Price</label>
+                                <input type="number" class="form-control" id="price" name="price" value="{{$inventory->price ?? old('price')}}"
+                                       placeholder="Enter Price" min="1" step="0.01">
+                                @error('price')
                                 <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>

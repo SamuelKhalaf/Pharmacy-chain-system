@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\BranchInventoryController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\TransferProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,8 +41,19 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function
     Route::resource('branch', BranchController::class);
 
     // CRUD BranchInventory
-    Route::resource('inventory', BranchInventoryController::class);
+    Route::get('inventory', [BranchInventoryController::class, 'index'])->name('inventory.index');
+    Route::get('inventory/create', [BranchInventoryController::class, 'create'])->name('inventory.create');
+    Route::post('inventory', [BranchInventoryController::class, 'store'])->name('inventory.store');
+    Route::get('inventory/{branch}/{product}', [BranchInventoryController::class, 'show'])->name('inventory.show');
+    Route::get('inventory/{branch}/{product}/edit', [BranchInventoryController::class, 'edit'])->name('inventory.edit');
+    Route::put('inventory/{branch}/{product}', [BranchInventoryController::class, 'update'])->name('inventory.update');
+    Route::delete('inventory/{branch}/{product}', [BranchInventoryController::class, 'destroy'])->name('inventory.destroy');
 
+//    Route::resource('inventory', BranchInventoryController::class);
+    // ajax
+    Route::get('allInventoryProducts', [BranchInventoryController::class,'allInventoryProducts'])->name('allInventoryProducts.ajax');
+
+    Route::get('transfer-products',[TransferProductsController::class,'showTransferForm'])->name('products.transfer');
 });
 
 Route::group(['prefix' => 'admin'] , function () {

@@ -24,4 +24,14 @@ class BranchInventory extends Model
         'quantity',
         'price',
     ];
+
+    public function getProductNameAttribute()
+    {
+        return Product::where('id',$this->product_id)->pluck('name')->first() ?? 'N/A';
+    }
+
+    public function getBranchNameAttribute()
+    {
+        return Branch::where('id',$this->branch_id)->pluck('name')->first() ?? 'N/A';
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Repositories;
 interface IBranch
 {
     public function getAll();
+    public function getNewBranches();
     public function findById($id);
     public function create(array $data);
     public function update(array $data , $id);

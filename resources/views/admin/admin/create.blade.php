@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <label for="role">Select Role</label>
                                 <select class="form-control" id="role" name="role_id">
-                                    @if(!empty($roles))
+                                    @if($roles->isNotEmpty())
                                         @foreach($roles as $role)
                                             <option value="{{$role->id}}"
                                                     @if($role->id == \App\Enums\AdminRole::BranchAdmin) selected @endif>{{$role->name}}</option>
@@ -87,7 +87,7 @@
                                 <label for="branch">Select Branch</label>
                                 <select class="form-control" id="branch" name="branch_id">
                                     <option value="" selected>open to select branch name</option>
-                                    @if(!empty($branches))
+                                    @if($branches->isNotEmpty())
                                         @foreach($branches as $branch)
                                             <option value="{{$branch->id}}">{{$branch->name}}</option>
                                         @endforeach
@@ -121,4 +121,19 @@
         </div>
     </aside>
     <!-- /.control-sidebar -->
+@endsection
+@section('scripts')
+    <script>
+        $(function () {
+            function toggleBranch() {
+                let role = parseInt($('#role').val());
+
+                $('#branch').prop('disabled', role === {{ \App\Enums\AdminRole::SuperAdmin }});
+            }
+            toggleBranch();
+
+            $('#role').on('change', toggleBranch);
+        });
+
+    </script>
 @endsection

@@ -45,6 +45,9 @@ class AdminService implements IAdminService
      */
     public function createAdmin(array $data)
     {
+        if($data['role_id'] == 1){
+            $data['branch_id'] = null;
+        }
         return $this->adminRepository->create($data);
     }
 

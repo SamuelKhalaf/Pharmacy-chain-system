@@ -53,6 +53,6 @@ class Admin extends Authenticatable
 
     public function getBranchNameAttribute()
     {
-        return Branch::where('id',$this->branch_id)->pluck('name')->first() ?? 'No Branch';
+        return Branch::where('id',$this->branch_id)->pluck('name')->first() ?? 'N/A';
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Branches
+    Inventories
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Branches</h1>
+                        <h1>Inventories</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                            <li class="breadcrumb-item active">Branches</li>
+                            <li class="breadcrumb-item active">Inventories</li>
 
                         </ol>
                     </div>
@@ -30,21 +30,23 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">View Branch</h3>
+                                <h3 class="card-title">View BranchProduct</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>name</th>
-                                        <th>location</th>
+                                        <th>product name</th>
+                                        <th>product quantity</th>
+                                        <th>product price</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{$branch->name}}</td>
-                                            <td>{{$branch->location}}</td>
+                                            <td>{{$inventory->product_name}}</td>
+                                            <td>{{$inventory->quantity}}</td>
+                                            <td>{{$inventory->price}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

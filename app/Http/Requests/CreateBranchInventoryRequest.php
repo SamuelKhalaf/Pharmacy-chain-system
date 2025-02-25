@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property array $quantity
  * @property array $price
  */
-class BranchInventoryRequest extends FormRequest
+class CreateBranchInventoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

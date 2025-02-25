@@ -41,6 +41,14 @@ class ProductRepository implements IProduct
             return false;
         }
     }
+    public function deleteProductsByCategoryId($category_id)
+    {
+        $productIds = Product::where('category_id', $category_id)->pluck('id')->toArray();
+
+        Product::where('category_id', $category_id)->delete();
+
+        return $productIds;
+    }
 
     public function isExists($id)
     {
