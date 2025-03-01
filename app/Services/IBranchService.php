@@ -5,6 +5,7 @@ interface IBranchService
 {
     public function getAllBranches();
     public function getNewBranches();
+    public function getOldBranches();
     public function getOneBranch($id);
     public function createBranch(array $data);
     public function updateBranch(array $data,$id);

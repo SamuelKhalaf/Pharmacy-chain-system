@@ -35,7 +35,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('plugins/daterangepicker/daterangepicker.css')}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+    <style>
+        .custom-footer {
+            background-color: #f8f9fa;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px;
+            border-top: 2px solid #007bff;
+        }
+        .custom-footer:hover {
+            background-color: #007bff;
+            color: white;
+        }
 
+    </style>
     @yield('style')
 </head>
 <body class="hold-transition sidebar-mini">
@@ -121,6 +134,148 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $('.select2').select2()
     });
 </script>
+{{--###################### Start Header ajax and jquery part ########################--}}
+{{--###################### this works for the transfer requests after accepted by the admin ########################--}}
+<script>
+    $(document).ready(function () {
+
+        $(document).on("click", ".dropdown-menu", function (event) {
+            event.stopPropagation();
+        });
+
+        $(document).on("click", ".toggle-details", function (event) {
+            event.stopPropagation();
+
+            let target = $($(this).data("target"));
+
+            // Close all other open collapse elements smoothly
+            $(".collapse.show").not(target).collapse("hide");
+
+            // Toggle the clicked one smoothly
+            target.collapse("toggle")
+        });
+
+        function updateRequestCount() {
+            $.ajax({
+                url: "{{ route('request.count') }}",
+                type: "GET",
+                success: function (response) {
+                    $("#request-count").text(response.count);
+                }
+            });
+        }
+
+        $(document).on("click", ".cancel-request, .accept-request", function () {
+            let requestId = $(this).data("id");
+            let requestCard = $("#card_"+requestId);
+            let action = $(this).hasClass("accept-request") ? "accept" : "cancel";
+
+            let url = `/dashboard/request/${requestId}/${action}`;
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function (response) {
+                    if (response.success || response.cancel || response.reject) {
+                        alert(response.message);
+
+                        console.log("Hiding request row:", `#request_${requestId}`);
+                        console.log("Hiding request card:", requestCard);
+
+                        $(`.requests-table tr#request_${requestId}`).fadeOut(1000, function () {
+                            $(this).remove();
+                        });
+                        requestCard.fadeOut(1000, function () {
+                            $(this).remove();
+                        });
+                        updateRequestCount();
+                        setTimeout(loadLatestRequests, 5000);
+                    }else {
+                        alert("Unexpected response. Please try again.");
+                    }
+                },
+                error: function () {
+                    alert("Failed to connect to the server.");
+                }
+            });
+        });
+
+        function loadLatestRequests() {
+            $.ajax({
+                url: "{{ route('request.dropdown') }}",
+                type: "GET",
+                success: function (requests) {
+                    let content = "";
+                    if (requests.length > 0) {
+                        requests.forEach(request => {
+                            let createdAt = moment(request.created_at).fromNow();
+                            content += `
+                                <div id="card_${request.id}" class="card shadow-sm mb-2 rounded">
+                                    <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1"><b>From:</b> ${request.from_branch_name}</h6>
+                                            <h6 class="mb-1"><b>To:</b> ${request.to_branch_name}</h6>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-secondary toggle-details"
+                                                type="button" data-toggle="collapse"
+                                                data-target="#details-${request.id}" aria-expanded="false">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </button>
+                                    </div>
+                                    <div id="details-${request.id}" class="collapse">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item"><b>Product:</b> ${request.product_name}</li>
+                                            <li class="list-group-item"><b>Quantity:</b> ${request.quantity}</li>
+                                            <li class="list-group-item text-muted">
+                                                <i class="far fa-clock"></i> ${createdAt}
+                                            </li>
+                                            <li class="list-group-item text-center">
+                                                <button class="btn btn-success btn-sm accept-request"
+                                                        data-id="${request.id}">
+                                                    <i class="fas fa-check"></i> Accept
+                                                </button>
+                                                <button class="btn btn-danger btn-sm cancel-request"
+                                                        data-id="${request.id}">
+                                                    <i class="fas fa-times"></i> Cancel
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        $(".dropdown-menu #latest-requests + .dropdown-footer").show();
+                    } else {
+                        content = `
+                            <div class="card shadow-sm mb-2 rounded text-center">
+                                <div class="card-body p-3">
+                                    <h6 class="text-muted mb-1"><i class="fas fa-info-circle"></i> No pending requests</h6>
+                                    <p class="text-muted small">All transfer requests have been processed.</p>
+                                </div>
+                            </div>`;
+
+                        $(".dropdown-menu #latest-requests + .dropdown-footer").hide();
+                    }
+                    $("#latest-requests").html(content);
+                },
+                error: function () {
+                    $("#latest-requests").html("<p>Failed to load requests.</p>");
+                    $(".dropdown-menu #latest-requests + .dropdown-footer").hide();
+                }
+            });
+        }
+
+        loadLatestRequests();
+        updateRequestCount();
+
+        $(".dropdown-menu #latest-requests + .dropdown-footer").hide();
+    });
+</script>
+{{--###################### End Header ajax and jquery part ########################--}}
 @yield('scripts')
 </body>
 </html>

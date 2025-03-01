@@ -7,7 +7,9 @@ use App\Http\Controllers\admin\BranchInventoryController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\TransferRequestController;
 use App\Http\Controllers\admin\TransferProductsController;
+use App\Models\TransferRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,7 +42,7 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function
     // CRUD BRANCHES
     Route::resource('branch', BranchController::class);
 
-    // CRUD BranchInventory
+    ########################### Start CRUD BranchInventory #################################
     Route::get('inventory', [BranchInventoryController::class, 'index'])->name('inventory.index');
     Route::get('inventory/create', [BranchInventoryController::class, 'create'])->name('inventory.create');
     Route::post('inventory', [BranchInventoryController::class, 'store'])->name('inventory.store');
@@ -48,12 +50,34 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function
     Route::get('inventory/{branch}/{product}/edit', [BranchInventoryController::class, 'edit'])->name('inventory.edit');
     Route::put('inventory/{branch}/{product}', [BranchInventoryController::class, 'update'])->name('inventory.update');
     Route::delete('inventory/{branch}/{product}', [BranchInventoryController::class, 'destroy'])->name('inventory.destroy');
+    // BranchInventory ajax
+    Route::get('inventory/allInventoryProducts', [BranchInventoryController::class,'allInventoryProducts'])->name('allInventoryProducts.ajax');
+    ########################### End CRUD BranchInventory ###################################
 
-//    Route::resource('inventory', BranchInventoryController::class);
-    // ajax
-    Route::get('allInventoryProducts', [BranchInventoryController::class,'allInventoryProducts'])->name('allInventoryProducts.ajax');
+    ########################### Start Transfer Products #################################
+    Route::get('/transfer',[TransferProductsController::class,'showTransferForm'])->name('transfer.show-transfer-form');
+    Route::get('/transfer/get-products',[TransferProductsController::class,'getSpecificBranchProducts'])->name('transfer.get-products');
+    Route::post('/transfer/store',[TransferProductsController::class,'storeTransferredProducts'])->name('transfer.store');
+    ########################### End Transfer Products #################################
 
-    Route::get('transfer-products',[TransferProductsController::class,'showTransferForm'])->name('products.transfer');
+    ########################### Start Request Products #################################
+    Route::get('/request',[TransferRequestController::class,'index'])->name('request.index');
+    Route::get('/request/make',[TransferRequestController::class,'showRequestForm'])->name('request.show-request-form');
+    Route::get('/request/get-products',[TransferRequestController::class,'getSpecificBranchProducts'])->name('request.get-products');
+    Route::post('/request/store',[TransferRequestController::class,'storeRequest'])->name('request.store');
+    Route::post('/request/{id}/accept',[TransferRequestController::class,'acceptRequest'])->name('request.accept');
+    Route::post('/request/{id}/cancel',[TransferRequestController::class,'cancelRequest'])->name('request.cancel');
+    Route::get('/requests/count', [TransferRequestController::class, 'countPendingRequests'])->name('request.count');
+
+    Route::get('/request/dropdown',[TransferRequestController::class, 'requestDropdown'])->name('request.dropdown');
+
+    ########################### End Request Products #################################
+
+    // Get auth admin branch_id
+    Route::get('/auth/branch', function () {
+        return response()->json(['branch_id' => auth()->user()->branch_id]);
+    })->name('auth.branch');
+
 });
 
 Route::group(['prefix' => 'admin'] , function () {

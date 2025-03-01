@@ -28,6 +28,10 @@ class BranchService implements IBranchService
     {
         return $this->branchRepository->getNewBranches();
     }
+    public function getOldBranches()
+    {
+        return $this->branchRepository->getOldBranches();
+    }
 
     public function getOneBranch($id)
     {

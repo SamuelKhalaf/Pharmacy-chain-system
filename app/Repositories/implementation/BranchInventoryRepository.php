@@ -48,19 +48,6 @@ class BranchInventoryRepository implements IBranchInventory
                 'price'      => $data['price'][$index],
             ]);
             $newInventoryRecords[] = $newInventoryRecord;
-//            $existingInventoryProduct = BranchInventory::where('branch_id', $data['branch_id'])
-//                ->where('product_id', $product_id)
-//                ->first();
-//
-//            if ($existingInventoryProduct) {
-//                $existingInventoryProduct->update([
-//                    'quantity' => $existingInventoryProduct->quantity + $data['quantity'][$index],
-//                    'price'    => $data['price'][$index],
-//                ]);
-//                $inventoryRecords[] = $existingInventoryProduct->refresh();
-//            } else {
-//
-//            }
         }
 
         return $newInventoryRecords;
@@ -77,6 +64,55 @@ class BranchInventoryRepository implements IBranchInventory
         return false;
    }
 
+    // add the products to the inventory which we will send the products
+    public function addProductsToInventory($to_branch_id ,$product_id , $quantity)
+    {
+        try {
+            $existingToBranchProduct = BranchInventory::query()
+                ->where('branch_id', $to_branch_id)
+                ->where('product_id', $product_id)
+                ->first();
+
+            if ($existingToBranchProduct) {
+                $existingToBranchProduct->update([
+                    'quantity' => $existingToBranchProduct->quantity + $quantity,
+                ]);
+            } else {
+                BranchInventory::create([
+                    'branch_id'  => $to_branch_id,
+                    'product_id' => $product_id,
+                    'quantity'   => $quantity,
+                    'price'      => 0,
+                ]);
+            }
+            return true;
+        }catch (\Exception $exception){
+            return false;
+        }
+    }
+
+    // reduce the products from the inventory which we will send the products
+    public function reduceProductsFromInventory($from_branch_id ,$product_id , $quantity)
+    {
+        try {
+            $fromBranchProduct = BranchInventory::query()
+                ->where('branch_id', $from_branch_id)
+                ->where('product_id' , $product_id)
+                ->first();
+
+            $fromBranchProduct->update([
+                'quantity' => $fromBranchProduct->quantity - $quantity,
+            ]);
+            $productAfterUpdated = $fromBranchProduct->refresh();
+            if ($productAfterUpdated->quantity < 1){
+                $productAfterUpdated->delete();
+            }
+            return true;
+        }catch (\Exception $exception){
+            return false;
+        }
+    }
+
     public function deleteAllInventoryProducts($branch_id)
     {
         if ($this->isInventoryExists($branch_id)){
@@ -92,7 +128,7 @@ class BranchInventoryRepository implements IBranchInventory
             $productIds = [$productIds];
         }
 
-        BranchInventory::whereIn('product_id', $productIds)->delete();
+        return BranchInventory::whereIn('product_id', $productIds)->delete();
     }
 
     public function deleteSpecificInventoryProduct($branch_id, $product_id)

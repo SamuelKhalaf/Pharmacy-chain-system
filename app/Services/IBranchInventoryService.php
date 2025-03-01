@@ -10,4 +10,5 @@ interface IBranchInventoryService
     public function deleteAllInventoryProducts($branch_id);
     public function deleteSpecificProductFromAllInventories($product_id);
     public function deleteSpecificInventoryProduct($branch_id,$product_id);
+    public function transferProductsBetweenInventories(array $data);
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateBranchInventoryRequest;
+use App\Http\Requests\GetBranchInventoryRequest;
 use App\Http\Requests\UpdateBranchInventoryRequest;
 use App\Models\BranchInventory;
 use App\Services\IBranchInventoryService;
@@ -28,12 +29,12 @@ class BranchInventoryController extends Controller
      */
     public function index()
     {
-        $branches = $this->branchService->getAllBranches();
+        $branches = $this->branchService->getOldBranches();
         return view('admin.inventory.index',compact('branches'));
     }
 
     // ajax method
-    public function allInventoryProducts(Request $request)
+    public function allInventoryProducts(GetBranchInventoryRequest $request)
     {
         $branchInventory = $this->branchInventoryService->getAllInventoryProducts($request->branch_id);
         return response()->json(['data' => $branchInventory]);

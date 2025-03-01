@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('branch.index')}}">Inventories</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('inventory.index')}}">Inventories</a></li>
                             <li class="breadcrumb-item active">New Inventory Products</li>
                         </ol>
                     </div>
@@ -36,7 +36,7 @@
                                         <div class="form-group">
                                             <label for="branch_id">Select Branch:</label>
                                             <select class="form-control" name="branch_id" id="branch_id" >
-                                                <option value="">-- Select Branch --</option>
+                                                <option value="" disabled selected>-- Select Branch --</option>
                                                 @foreach($newBranches as $newBranch)
                                                     <option value="{{ $newBranch->id }}">{{ $newBranch->name }}</option>
                                                 @endforeach
@@ -155,7 +155,7 @@
                     updateProductOptions();
                     updateRemoveButtons();
                 } else {
-                    alert("You must keep at least one product."); // رسالة تنبيه للمستخدم
+                    alert("You must keep at least one product.");
                 }
             });
 

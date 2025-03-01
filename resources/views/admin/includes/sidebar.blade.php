@@ -158,18 +158,27 @@
                         </li>
                     </ul>
                 </li>
-
+                {{-- Super Admin transfer link --}}
                 <li class="nav-item">
-                    <a href="{{route('products.transfer')}}" class="nav-link">
+                    <a href="{{route('transfer.show-transfer-form')}}" class="nav-link {{setActive('transfer.show-transfer-form')}}">
                         <i class="nav-icon fas fa-exchange-alt"></i>
                         <p>
                             Transfer Products
                         </p>
                     </a>
                 </li>
+                {{-- Branch Admin transfer-request link --}}
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="{{route('request.show-request-form')}}" class="nav-link {{setActive('request.show-request-form')}}">
+                        <i class="nav-icon fas fa-handshake"></i>
+                        <p>
+                            Request Products
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-people-carry"></i>
                         <p>
                             Simple Link
                             <span class="right badge badge-danger">New</span>

@@ -12,9 +12,11 @@ use App\Repositories\implementation\BranchRepository;
 use App\Repositories\implementation\CategoryRepository;
 use App\Repositories\implementation\ProductRepository;
 use App\Repositories\implementation\RoleRepository;
+use App\Repositories\implementation\TransferRequestRepository;
 use App\Repositories\implementation\UserRepository;
 use App\Repositories\IProduct;
 use App\Repositories\IRole;
+use App\Repositories\ITransferRequest;
 use App\Repositories\IUser;
 use App\Services\IAdminService;
 use App\Services\IAuthAdminService;
@@ -28,9 +30,11 @@ use App\Services\implementation\BranchService;
 use App\Services\implementation\CategoryService;
 use App\Services\implementation\ProductService;
 use App\Services\implementation\RoleService;
+use App\Services\implementation\TransferRequestService;
 use App\Services\implementation\UserService;
 use App\Services\IProductService;
 use App\Services\IRoleService;
+use App\Services\ITransferRequestService;
 use App\Services\IUserService;
 use Illuminate\Support\ServiceProvider;
 
@@ -54,6 +58,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IProductService::class,ProductService::class);
         $this->app->bind(IBranchInventory::class,BranchInventoryRepository::class);
         $this->app->bind(IBranchInventoryService::class,BranchInventoryService::class);
+        $this->app->bind(ITransferRequest::class,TransferRequestRepository::class);
+        $this->app->bind(ITransferRequestService::class,TransferRequestService::class);
     }
 
     /**
