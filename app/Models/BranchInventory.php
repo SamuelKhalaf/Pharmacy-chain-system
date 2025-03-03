@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $product_id
  * @property int $quantity
  * @property float $price
+ * @property int $critical_level
  */
 class BranchInventory extends Model
 {
@@ -23,6 +24,7 @@ class BranchInventory extends Model
         'product_id',
         'quantity',
         'price',
+        'critical_level',
     ];
 
     public function getProductNameAttribute()

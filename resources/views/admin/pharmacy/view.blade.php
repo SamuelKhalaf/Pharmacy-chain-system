@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Inventories
+    Pharmacy
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Inventories</h1>
+                        <h1>Pharmacy</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                            <li class="breadcrumb-item active">Inventories</li>
+                            <li class="breadcrumb-item"><a href="{{route('pharmacy.index')}}">Pharmacy</a></li>
+                            <li class="breadcrumb-item active">view Product</li>
 
                         </ol>
                     </div>
@@ -30,7 +31,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">View BranchProduct</h3>
+                                <h3 class="card-title">View Product</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -68,13 +69,4 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-        <div class="p-3">
-            <h5>Title</h5>
-            <p>Sidebar content</p>
-        </div>
-    </aside>
-    <!-- /.control-sidebar -->
 @endsection

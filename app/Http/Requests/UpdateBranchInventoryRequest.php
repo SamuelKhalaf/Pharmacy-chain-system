@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @property int $quantity
  * @property float $price
+ * @property int $critical_level
  */
 class UpdateBranchInventoryRequest extends FormRequest
 {
@@ -25,8 +26,9 @@ class UpdateBranchInventoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'quantity'    => 'required|integer|min:1',
+            'quantity'    => 'required|integer|min:0',
             'price'       => 'required|numeric|min:1',
+            'critical_level'       => 'required|integer|min:1',
         ];
     }
 }

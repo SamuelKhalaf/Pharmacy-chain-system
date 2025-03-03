@@ -6,10 +6,11 @@ use App\Http\Controllers\admin\BranchController;
 use App\Http\Controllers\admin\BranchInventoryController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\PharmacyController;
 use App\Http\Controllers\admin\ProductController;
-use App\Http\Controllers\admin\TransferRequestController;
+use App\Http\Controllers\admin\salesController;
 use App\Http\Controllers\admin\TransferProductsController;
-use App\Models\TransferRequest;
+use App\Http\Controllers\admin\TransferRequestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/start', function () {
-    return view('welcome');
+Route::get('/', function () {
+    return view('home-page');
 });
 
 
@@ -68,16 +69,21 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function
     Route::post('/request/{id}/accept',[TransferRequestController::class,'acceptRequest'])->name('request.accept');
     Route::post('/request/{id}/cancel',[TransferRequestController::class,'cancelRequest'])->name('request.cancel');
     Route::get('/requests/count', [TransferRequestController::class, 'countPendingRequests'])->name('request.count');
-
     Route::get('/request/dropdown',[TransferRequestController::class, 'requestDropdown'])->name('request.dropdown');
-
     ########################### End Request Products #################################
 
     // Get auth admin branch_id
-    Route::get('/auth/branch', function () {
-        return response()->json(['branch_id' => auth()->user()->branch_id]);
-    })->name('auth.branch');
+    Route::get('/auth/branch', function () {return response()->json(['branch_id' => auth()->user()->branch_id]);})->name('auth.branch');
 
+    // CRUD sales (invoices)
+    Route::resource('invoice',salesController::class)->except(['edit','update']);
+
+    // Pharmacy routes
+    Route::get('pharmacy',[PharmacyController::class,'index'])->name('pharmacy.index');
+    Route::get('pharmacy/{branch}/{product}', [PharmacyController::class, 'show'])->name('pharmacy.show');
+    Route::get('pharmacy/{branch}/{product}/edit', [PharmacyController::class, 'edit'])->name('pharmacy.edit');
+    Route::put('pharmacy/{branch}/{product}', [PharmacyController::class, 'update'])->name('pharmacy.update');
+    Route::delete('pharmacy/{branch}/{product}', [PharmacyController::class, 'destroy'])->name('pharmacy.destroy');
 });
 
 Route::group(['prefix' => 'admin'] , function () {

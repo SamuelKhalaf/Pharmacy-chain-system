@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    New Inventory Products
+    New Invoice
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -8,13 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">New Inventory Products</h1>
+                        <h1 class="m-0">New Invoice</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('inventory.index')}}">Inventories</a></li>
-                            <li class="breadcrumb-item active">New Inventory Products</li>
+                            <li class="breadcrumb-item"><a href="{{route('invoice.index')}}">Invoices</a></li>
+                            <li class="breadcrumb-item active">New Invoice</li>
                         </ol>
                     </div>
                 </div>
@@ -25,38 +25,38 @@
             <div class="container-fluid">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">New Inventory Products</h3>
+                        <h3 class="card-title">New Invoice</h3>
                     </div>
-                    @if($branches->isNotEmpty())
-                        <form action="{{route('inventory.store')}}" method="post" autocomplete="off">
+                    @if($users->isNotEmpty())
+                        <form action="{{route('invoice.store')}}" method="post" autocomplete="off">
                             @csrf
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="branch_id">Select Branch:</label>
-                                            <select class="form-control" name="branch_id" id="branch_id" >
-                                                <option value="" disabled selected>-- Select Branch --</option>
-                                                @foreach($branches as $branch)
-                                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                            <label for="user_id">Select Customer:</label>
+                                            <select class="form-control" name="user_id" id="user_id" >
+                                                <option value="" disabled selected>-- Select Customer--</option>
+                                                @foreach($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('branch_id')
+                                            @error('user_id')
                                             <small class="text-danger">{{$message}}</small>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
 
-                                <h5 class="mt-4">Add Products</h5>
+                                <h5 class="mt-4">Invoice Items</h5>
                                 <div id="products-container">
                                     <div class="product-row row align-items-center mb-2">
-                                        <div class="col-md-3">
-                                            <label>Product</label>
+                                        <div class="col-md-4">
+                                            <label>Item</label>
                                             <select class="form-control product-select" name="product_id[]" >
                                                 <option value="">-- Select Product --</option>
-                                                @foreach($products as $product)
-                                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                                @foreach($inventoryProducts as $inventoryProduct)
+                                                    <option value="{{ $inventoryProduct->product_id }}" data-quantity="{{ $inventoryProduct->quantity }}">{{ $inventoryProduct->product_name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('product_id.*')
@@ -66,44 +66,27 @@
 
                                         <div class="col-md-3">
                                             <label>Qty</label>
-                                            <input type="number" class="form-control" name="quantity[]" min="0">
+                                            <input type="number" class="form-control" name="quantity[]" min="1">
                                             @error('quantity.*')
                                             <small class="text-danger">{{$message}}</small>
                                             @enderror
                                         </div>
-
-                                        <div class="col-md-2">
-                                            <label>Price</label>
-                                            <input type="number" class="form-control" name="price[]" min="1" step="0.01">
-                                            @error('price.*')
-                                            <small class="text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <label>Critical Level</label>
-                                            <input type="number" class="form-control" name="critical_level[]" min="1">
-                                            @error('critical_level.*')
-                                            <small class="text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-
                                         <div class="col-md-2 text-center">
                                             <button type="button" class="btn btn-danger remove-product mt-4" disabled >Delete</button>
                                         </div>
                                     </div>
                                 </div>
 
-                                <button type="button" id="add-product" class="btn btn-success mt-2">Add Another Product</button>
+                                <button type="button" id="add-product" class="btn btn-success mt-2">Add Another Item</button>
                             </div>
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Store Products</button>
+                                <button type="submit" class="btn btn-primary">Create Invoice</button>
                             </div>
                         </form>
                     @else
                         <div class="card-body">
-                            <p>There is no <b>New Branches</b> yet</p>
+                            <p>There is no <b>Users</b> yet</p>
                         </div>
                     @endif
 
@@ -168,6 +151,9 @@
             });
 
             $("#products-container").on("change", ".product-select", function () {
+                let selectedOption = $(this).find("option:selected");
+                let availableQuantity = selectedOption.data("quantity") || 0;
+                $(this).closest(".product-row").find('input[name="quantity[]"]').val(availableQuantity);
                 updateProductOptions();
             });
 

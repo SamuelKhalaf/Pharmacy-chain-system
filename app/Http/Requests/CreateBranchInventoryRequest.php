@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property array $product_id
  * @property array $quantity
  * @property array $price
+ * @property array $critical_level
  */
 class CreateBranchInventoryRequest extends FormRequest
 {
@@ -31,9 +32,11 @@ class CreateBranchInventoryRequest extends FormRequest
             'product_id'  => 'required|array',
             'product_id.*'=> 'exists:products,id',
             'quantity'    => 'required|array',
-            'quantity.*'  => 'integer|min:1',
+            'quantity.*'  => 'integer|min:0',
             'price'       => 'required|array',
-            'price.*'     => 'numeric|min:1'
+            'price.*'     => 'numeric|min:1',
+            'critical_level'       => 'required|array',
+            'critical_level.*'     => 'integer|min:1'
         ];
     }
 }

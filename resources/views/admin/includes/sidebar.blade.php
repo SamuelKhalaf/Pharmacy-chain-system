@@ -14,7 +14,7 @@
                 <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->name}}</a>
+                <a href="#" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->name ?? 'N/A'}}</a>
             </div>
         </div>
 
@@ -54,7 +54,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('admin.index')}}" class="nav-link {{setActive('admin.index')}}">
-                                <i class="fas fa-stream nav-icon"></i>
+                                <i class="fas fa-list-alt nav-icon"></i>
                                 <p>All Admins</p>
                             </a>
                         </li>
@@ -77,7 +77,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('category.index')}}" class="nav-link {{setActive('category.index')}}">
-                                <i class="fas fa-stream nav-icon"></i>
+                                <i class="fas fa-list-alt nav-icon"></i>
                                 <p>All Categories</p>
                             </a>
                         </li>
@@ -100,7 +100,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('product.index')}}" class="nav-link {{setActive('product.index')}}">
-                                <i class="fas fa-stream nav-icon"></i>
+                                <i class="fas fa-list-alt nav-icon"></i>
                                 <p>All Products</p>
                             </a>
                         </li>
@@ -123,7 +123,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('branch.index')}}" class="nav-link {{setActive('branch.index')}}">
-                                <i class="fas fa-stream nav-icon"></i>
+                                <i class="fas fa-list-alt nav-icon"></i>
                                 <p>All Branches</p>
                             </a>
                         </li>
@@ -146,7 +146,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('inventory.index')}}" class="nav-link {{setActive('inventory.index')}}">
-                                <i class="fas fa-stream nav-icon"></i>
+                                <i class="fas fa-list-alt nav-icon"></i>
                                 <p>All Inventory Product/s</p>
                             </a>
                         </li>
@@ -167,21 +167,43 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('pharmacy.index')}}" class="nav-link ">
+                        <i class="nav-icon fas fa-clinic-medical"></i>
+                        <p>
+                            Pharmacy
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item {{ setMenuOpen('dashboard/invoice') }}">
+                    <a href="#" class="nav-link {{ setActive('invoice.create') }} {{ setActive('invoice.index') }} {{ setActive('invoice.show') }} {{ setActive('invoice.edit') }}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Invoices
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('invoice.index') }}" class="nav-link {{ setActive('invoice.index') }}">
+                                <i class="fas fa-list-alt nav-icon"></i>
+                                <p>All Invoices</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('invoice.create') }}" class="nav-link {{ setActive('invoice.create') }}">
+                                <i class="fas fa-plus-square nav-icon"></i>
+                                <p>New Invoice</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 {{-- Branch Admin transfer-request link --}}
                 <li class="nav-item">
                     <a href="{{route('request.show-request-form')}}" class="nav-link {{setActive('request.show-request-form')}}">
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
                             Request Products
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link ">
-                        <i class="nav-icon fas fa-people-carry"></i>
-                        <p>
-                            Simple Link
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>

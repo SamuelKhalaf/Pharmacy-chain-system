@@ -45,9 +45,9 @@ class BranchInventoryController extends Controller
      */
     public function create()
     {
-        $newBranches = $this->branchService->getNewBranches();
+        $branches = $this->branchService->getAllBranches();
         $products = $this->productService->getAllProducts();
-        return view('admin.inventory.create',compact(['newBranches', 'products']));
+        return view('admin.inventory.create',compact(['branches', 'products']));
     }
 
     /**

@@ -55,6 +55,7 @@
                                         <th>product name</th>
                                         <th>product quantity</th>
                                         <th>product price</th>
+                                        <th>Critical Level</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -120,6 +121,7 @@
                                             <td>${inventory.product_name}</td>
                                             <td>${inventory.quantity}</td>
                                             <td>${inventory.price}</td>
+                                            <td>${inventory.critical_level}</td>
                                             <td class="project-actions text-center">
                                                 <a class="btn btn-primary btn-sm" href="/dashboard/inventory/${inventory.branch_id}/${inventory.product_id}">
                                                     <i class="fas fa-folder"></i> View

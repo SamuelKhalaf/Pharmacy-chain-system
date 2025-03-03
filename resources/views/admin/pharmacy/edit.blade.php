@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Edit Inventory Product
+    Edit Pharmacy Product
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,13 +10,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Edit Inventory Product</h1>
+                        <h1 class="m-0">Edit Pharmacy Product</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('inventory.index')}}">Inventories</a></li>
-                            <li class="breadcrumb-item active">Edit Inventory Product</li>
+                            <li class="breadcrumb-item"><a href="{{route('pharmacy.index')}}">Pharmacy</a></li>
+                            <li class="breadcrumb-item active">Edit Pharmacy Product</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -30,11 +30,11 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Inventory Product</h3>
+                        <h3 class="card-title">Edit Pharmacy Product</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form action="{{route('inventory.update',[$inventory->branch_id,$inventory->product_id])}}" method="post" autocomplete="off">
+                    <form action="{{route('pharmacy.update',[$inventory->branch_id,$inventory->product_id])}}" method="post" autocomplete="off">
                         @csrf
                         @method('PUT')
                         <div class="card-body">
