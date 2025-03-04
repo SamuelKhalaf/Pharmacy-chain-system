@@ -99,4 +99,9 @@ class ProductService implements IProductService
             return false;
         }
     }
+
+    public function getTopSellingProducts($year, $limit = 5)
+    {
+        return $this->productRepository->getTopSellingProducts($year, $limit);
+    }
 }

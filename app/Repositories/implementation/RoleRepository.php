@@ -8,7 +8,7 @@ class RoleRepository implements IRole
 {
     public function getAll()
     {
-        return Role::get();
+        return Role::paginate(PAGINATE_COUNT);
     }
 
     public function findById($id)

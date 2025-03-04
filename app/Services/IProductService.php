@@ -9,4 +9,5 @@ interface IProductService
     public function updateProduct(array $data,$id);
     public function deleteProduct($id);
     public function deleteProductByCategoryId($category_id);
+    public function getTopSellingProducts($year, $limit = 5);
 }

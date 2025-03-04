@@ -30,6 +30,11 @@ class AdminService implements IAdminService
         return $this->adminRepository->getAll();
     }
 
+    public function getByRoleId($roleId)
+    {
+        return $this->adminRepository->getBy('role_id','=' , $roleId);
+    }
+
     /**
      * @param $id
      * @return mixed

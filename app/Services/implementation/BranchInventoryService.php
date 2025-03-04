@@ -21,6 +21,11 @@ class BranchInventoryService implements IBranchInventoryService
         return $this->branchInventoryRepository->getAllInventoryProducts($branch_id);
     }
 
+    public function getCriticalProducts()
+    {
+        return $this->branchInventoryRepository->getCriticalProducts();
+    }
+
     public function getOneInventoryProduct($branch_id, $product_id)
     {
         return $this->branchInventoryRepository->getSpecificInventoryProduct($branch_id,$product_id);

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    Pharmacy
+    Notifications
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Pharmacy</h1>
+                        <h1>Notifications</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                            <li class="breadcrumb-item active">Pharmacy</li>
+                            <li class="breadcrumb-item active">Notifications</li>
                         </ol>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">All Pharmacy Products</h3>
+                                <h3 class="card-title">All Notifications</h3>
                             </div>
                             @include('admin.includes.alerts.success')
                             @include('admin.includes.alerts.errors')
@@ -38,33 +38,30 @@
                                 <table id="example" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>product name</th>
-                                            <th>product quantity</th>
-                                            <th>product price</th>
+                                            <th>Message</th>
+                                            <th>Branch</th>
+                                            <th>Product</th>
+                                            <th>Product Quantity</th>
                                             <th>Critical Level</th>
+                                            <th>Is Read</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if($inventoryProducts->isNotEmpty())
-                                            @foreach($inventoryProducts as $inventoryProduct)
+                                        @if($notifications->isNotEmpty())
+                                            @foreach($notifications as $notification)
                                                 <tr>
-                                                    <td>{{$inventoryProduct->product_name}}</td>
-                                                    <td>{{$inventoryProduct->quantity}}</td>
-                                                    <td>{{$inventoryProduct->price}}</td>
-                                                    <td>{{$inventoryProduct->critical_level ?? 'N/A' }}</td>
+                                                    <td>{{$notification->data['text']}}</td>
+                                                    <td>{{$notification->data['branch_name']}}</td>
+                                                    <td>{{$notification->data['product_name']}}</td>
+                                                    <td>{{$notification->data['product_quantity']}}</td>
+                                                    <td>{{$notification->data['critical_level']}}</td>
+                                                    <td>{{ $notification->is_read ? 'true' : 'false' }}</td>
                                                     <td class="project-actions text-center">
-                                                        <a class="btn btn-primary btn-sm" href="{{route('pharmacy.show',[$inventoryProduct->branch_id,$inventoryProduct->product_id])}}">
-                                                            <i class="fas fa-folder"></i> View
-                                                        </a>
-                                                        <a class="btn btn-info btn-sm" href="{{route('pharmacy.edit',[$inventoryProduct->branch_id,$inventoryProduct->product_id])}}">
-                                                            <i class="fas fa-pencil-alt"></i> Edit
-                                                        </a>
-                                                        <form action="{{route('pharmacy.destroy',[$inventoryProduct->branch_id,$inventoryProduct->product_id])}}" method="POST" style="display: inline;">
+                                                        <form action="{{route('notification.markAsRead',[$notification->id])}}" method="POST" style="display: inline;">
                                                             @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">
-                                                                <i class="fas fa-trash"></i> Delete
+                                                            <button type="submit" class="btn btn-success btn-sm">
+                                                                <i class="fas fa-check"></i> Mark As Read
                                                             </button>
                                                         </form>
                                                     </td>
@@ -72,7 +69,7 @@
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="5"> There is Not Products In Pharmacy</td>
+                                                <td colspan="5"> There is Not Notifications</td>
                                             </tr>
                                         @endif
 

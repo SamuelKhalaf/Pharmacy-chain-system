@@ -1,8 +1,10 @@
-<!-- Main Sidebar Container -->
+@php use App\Enums\AdminRole;use Illuminate\Support\Facades\Auth; @endphp
+    <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
-        <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
         <span class="brand-text font-weight-light">Admin Dashboard</span>
     </a>
 
@@ -14,7 +16,8 @@
                 <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->name ?? 'N/A'}}</a>
+                <a href="#" class="d-block">{{Auth::user()->name ?? 'N/A'}}</a>
+                <small class="text-muted">{{ AdminRole::getRoleName(auth()->user()->role_id) ?? 'No Role' }}</small>
             </div>
         </div>
 
@@ -158,9 +161,33 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{setMenuOpen('dashboard/reports')}}">
+                    <a href="" class="nav-link {{setActive('reports.branches-invoices')}} {{setActive('reports.products-count')}}">
+                        <i class="nav-icon fas fa-file-alt "></i>
+                        <p>
+                            Reports
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('reports.branches-invoices')}}" class="nav-link {{setActive('reports.branches-invoices')}}">
+                                <i class="fas fa-shopping-cart nav-icon"></i>
+                                <p>Branch Invoices</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('reports.products-count')}}" class="nav-link {{setActive('reports.products-count')}}">
+                                <i class="fas fa-calculator nav-icon"></i>
+                                <p>Sold Products Count</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 {{-- Super Admin transfer link --}}
                 <li class="nav-item">
-                    <a href="{{route('transfer.show-transfer-form')}}" class="nav-link {{setActive('transfer.show-transfer-form')}}">
+                    <a href="{{route('transfer.show-transfer-form')}}"
+                       class="nav-link {{setActive('transfer.show-transfer-form')}}">
                         <i class="nav-icon fas fa-exchange-alt"></i>
                         <p>
                             Transfer Products
@@ -176,7 +203,8 @@
                     </a>
                 </li>
                 <li class="nav-item {{ setMenuOpen('dashboard/invoice') }}">
-                    <a href="#" class="nav-link {{ setActive('invoice.create') }} {{ setActive('invoice.index') }} {{ setActive('invoice.show') }} {{ setActive('invoice.edit') }}">
+                    <a href="#"
+                       class="nav-link {{ setActive('invoice.create') }} {{ setActive('invoice.index') }} {{ setActive('invoice.show') }} {{ setActive('invoice.edit') }}">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Invoices
@@ -200,7 +228,8 @@
                 </li>
                 {{-- Branch Admin transfer-request link --}}
                 <li class="nav-item">
-                    <a href="{{route('request.show-request-form')}}" class="nav-link {{setActive('request.show-request-form')}}">
+                    <a href="{{route('request.show-request-form')}}"
+                       class="nav-link {{setActive('request.show-request-form')}}">
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
                             Request Products

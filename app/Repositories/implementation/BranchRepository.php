@@ -15,7 +15,7 @@ class BranchRepository implements IBranch
     }
     public function getAll()
     {
-        return Branch::get();
+        return Branch::paginate(PAGINATE_COUNT);
     }
 
     // All Branches that don't have inventory

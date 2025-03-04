@@ -8,7 +8,7 @@ class UserRepository implements IUser
 {
     public function getAll()
     {
-        return User::get();
+        return User::paginate(PAGINATE_COUNT);
     }
 
     public function getBy($column,$operator,$value)

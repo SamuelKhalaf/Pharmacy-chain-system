@@ -6,8 +6,10 @@ use App\Http\Controllers\admin\BranchController;
 use App\Http\Controllers\admin\BranchInventoryController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\NotificationController;
 use App\Http\Controllers\admin\PharmacyController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\ReportsController;
 use App\Http\Controllers\admin\salesController;
 use App\Http\Controllers\admin\TransferProductsController;
 use App\Http\Controllers\admin\TransferRequestController;
@@ -25,9 +27,11 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function () {
-    // dashboard
+    ########################### Start Charts routes #################################
     Route::get('/' , [DashboardController::class, 'index'])->name('home');
-
+    Route::get('charts/sales-count',[DashboardController::class,'getSalesCount'])->name('charts.sales-count');
+    Route::get('/top-products', [DashboardController::class, 'getTopSellingProducts'])->name('dashboard.top-products');
+    ########################### End Charts routes #################################
     // admin logout
     Route::post('/admin/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
 
@@ -78,12 +82,34 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function
     // CRUD sales (invoices)
     Route::resource('invoice',salesController::class)->except(['edit','update']);
 
-    // Pharmacy routes
+    ########################### Start Pharmacy routes #################################
     Route::get('pharmacy',[PharmacyController::class,'index'])->name('pharmacy.index');
     Route::get('pharmacy/{branch}/{product}', [PharmacyController::class, 'show'])->name('pharmacy.show');
     Route::get('pharmacy/{branch}/{product}/edit', [PharmacyController::class, 'edit'])->name('pharmacy.edit');
     Route::put('pharmacy/{branch}/{product}', [PharmacyController::class, 'update'])->name('pharmacy.update');
     Route::delete('pharmacy/{branch}/{product}', [PharmacyController::class, 'destroy'])->name('pharmacy.destroy');
+    ########################### End Pharmacy routes #################################
+
+    ########################### Start Notification routes #################################
+    Route::get('notification',[NotificationController::class,'index'])->name('notification.index');
+    Route::get('notification/unread', [NotificationController::class, 'getUnReadNotification'])->name('notification.unread');
+    Route::get('notification/{id}', [NotificationController::class, 'show'])->name('notification.show');
+    Route::post('notification/{id}', [NotificationController::class, 'markAsRead'])->name('notification.markAsRead');
+    ########################### End Notification routes #################################
+
+    ########################### Start Reports routes #################################
+    Route::get('reports/branches/invoices',[ReportsController::class,'getBranchInvoices'])
+        ->name('reports.branches-invoices');
+    Route::get('reports/branches/get-invoices',[ReportsController::class,'getInvoices'])
+        ->name('reports.get-invoices');
+    Route::get('reports/branches/products-count',[ReportsController::class,'getSoldProductsCount'])
+        ->name('reports.products-count');
+    Route::get('/reports/get-products-by-branch', [ReportsController::class, 'getProductsByBranch'])
+        ->name('reports.get-products-by-branch');
+    Route::get('/reports/get-sold-product-quantity', [ReportsController::class, 'getProductCount'])
+        ->name('reports.get-sold-product-quantity');
+    ########################### End Reports routes #################################
+
 });
 
 Route::group(['prefix' => 'admin'] , function () {

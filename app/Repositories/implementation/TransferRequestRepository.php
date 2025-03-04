@@ -9,7 +9,7 @@ class TransferRequestRepository implements ITransferRequest
 {
     public function getAll()
     {
-        return TransferRequest::get();
+        return TransferRequest::paginate(PAGINATE_COUNT);
     }
 
     public function findById($id)

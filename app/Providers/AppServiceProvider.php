@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Adapters\implementation\DatabaseNotificationAdapter;
 use App\Repositories\IAdmin;
 use App\Repositories\IBranch;
 use App\Repositories\IBranchInventory;
@@ -10,11 +11,13 @@ use App\Repositories\implementation\AdminRepository;
 use App\Repositories\implementation\BranchInventoryRepository;
 use App\Repositories\implementation\BranchRepository;
 use App\Repositories\implementation\CategoryRepository;
+use App\Repositories\implementation\NotificationRepository;
 use App\Repositories\implementation\ProductRepository;
 use App\Repositories\implementation\RoleRepository;
 use App\Repositories\implementation\SaleRepository;
 use App\Repositories\implementation\TransferRequestRepository;
 use App\Repositories\implementation\UserRepository;
+use App\Repositories\INotification;
 use App\Repositories\IProduct;
 use App\Repositories\IRole;
 use App\Repositories\ISale;
@@ -30,11 +33,13 @@ use App\Services\implementation\AuthAdminAdminService;
 use App\Services\implementation\BranchInventoryService;
 use App\Services\implementation\BranchService;
 use App\Services\implementation\CategoryService;
+use App\Services\implementation\NotificationService;
 use App\Services\implementation\ProductService;
 use App\Services\implementation\RoleService;
 use App\Services\implementation\SaleService;
 use App\Services\implementation\TransferRequestService;
 use App\Services\implementation\UserService;
+use App\Services\INotificationService;
 use App\Services\IProductService;
 use App\Services\IRoleService;
 use App\Services\ISaleService;
@@ -66,8 +71,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ITransferRequestService::class,TransferRequestService::class);
         $this->app->bind(ISale::class,SaleRepository::class);
         $this->app->bind(ISaleService::class,SaleService::class);
-        $this->app->bind(IUserService::class,UserService::class);
         $this->app->bind(IUser::class,UserRepository::class);
+        $this->app->bind(IUserService::class,UserService::class);
+        $this->app->bind(INotification::class,NotificationRepository::class);
+        $this->app->bind(INotificationService::class,NotificationService::class);
+        $this->app->bind(\App\Adapters\INotification::class,DatabaseNotificationAdapter::class);
     }
 
     /**

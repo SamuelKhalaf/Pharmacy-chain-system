@@ -1,6 +1,6 @@
 <?php
 
-define('PAGINATE_COUNT',5);
+define('PAGINATE_COUNT',20);
 
 //helper function to set active if the route is equal to the anchor href
 function setActive($routeName, $paramName = null, $paramValue = null)

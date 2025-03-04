@@ -8,7 +8,7 @@ class AdminRepository implements IAdmin
 {
     public function getAll()
     {
-        return Admin::get();
+        return Admin::paginate(PAGINATE_COUNT);
     }
 
     public function getBy($column,$operator,$value)
@@ -54,4 +54,5 @@ class AdminRepository implements IAdmin
     {
         return Admin::where('id',$id)->exists();
     }
+
 }

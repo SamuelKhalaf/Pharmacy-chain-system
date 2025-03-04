@@ -48,6 +48,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
             color: white;
         }
 
+        /* notifications */
+        .notification-item {
+            transition: background 0.3s ease-in-out;
+            position: relative;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+
+        .view-details {
+            display: none;
+            font-size: 12px;
+            color: #007bff;
+            font-weight: bold;
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+        }
+
+        .notification-item:hover .view-details {
+            display: inline;
+        }
+
     </style>
     @yield('style')
 </head>
@@ -107,11 +133,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('dist/js/adminlte.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-{{--<script src="{{asset('dist/js/demo.js')}}"></script>--}}
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-{{--<script src="{{asset('dist/js/pages/dashboard.js')}}"></script>--}}
-<!-- Page specific script -->
 <script>
     $(function () {
         $("#example1").DataTable({
@@ -273,7 +294,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
         updateRequestCount();
 
         $(".dropdown-menu #latest-requests + .dropdown-footer").hide();
+
+        // load notifications for products at critical level
+        function loadNotifications() {
+            $.ajax({
+                url: "{{route('notification.unread')}}",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    let $notificationList = $(".notifications-dropdown .dropdown-menu");
+                    let $notificationCount = $(".notifications-dropdown .navbar-badge");
+
+                    if (data.length > 0) {
+                        $notificationList.empty();
+                        $notificationList.append(`<span class="dropdown-header">${data.length} Notifications</span>`);
+                        $.each(data, function (index, notification) {
+                            let listItem = `
+                            <a href="/dashboard/notification/${notification.id}" class="dropdown-item d-flex align-items-center notification-item">
+                                <div class="mr-3">
+                                    <i class="fas fa-bell text-warning fa-lg"></i>
+                                </div>
+                                <div class="w-100">
+                                    <p class="mb-1 font-weight-bold">${notification.text}</p>
+                                    <small class="text-muted d-block">${notification.created_at}</small>
+                                    <span class="view-details">view details</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        `;
+                            $notificationList.append(listItem);
+                        });
+                        $notificationList.append(`<a href="/dashboard/notification" class="dropdown-item dropdown-footer">See All Notifications</a>`);
+                        $notificationCount.text(data.length);
+                    } else {
+                        $notificationList.html('<span class="dropdown-header">No new notifications</span>');
+                        $notificationCount.text("0");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading notifications:", error);
+                }
+            });
+        }
+
+        loadNotifications();
     });
+
+
 </script>
 {{--###################### End Header ajax and jquery part ########################--}}
 @yield('scripts')

@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\implementation;
 
+use App\Repositories\IBranch;
 use App\Repositories\IBranchInventory;
 use App\Repositories\ISale;
 use App\Services\ISaleService;
@@ -9,9 +10,11 @@ class SaleService implements ISaleService
 {
     protected ISale $saleRepository;
     protected IBranchInventory $branchInventoryRepository;
+    protected IBranch $branchRepository;
 
-    public function __construct(ISale $saleRepository ,IBranchInventory $branchInventoryRepository)
+    public function __construct(ISale $saleRepository ,IBranchInventory $branchInventoryRepository , IBranch $branchRepository)
     {
+        $this->branchRepository = $branchRepository;
         $this->saleRepository = $saleRepository;
         $this->branchInventoryRepository = $branchInventoryRepository;
     }
@@ -21,9 +24,9 @@ class SaleService implements ISaleService
         return $this->saleRepository->getAll();
     }
 
-    public function getSaleByBranchId($branch_id)
+    public function getSaleByBranchId($branch_id, $start_date = null, $end_date = null)
     {
-        return $this->saleRepository->findByBranchId($branch_id);
+        return $this->saleRepository->findByBranchId($branch_id,$start_date,$end_date);
     }
 
     public function getSpecificSaleItems($sale_id)
@@ -59,8 +62,23 @@ class SaleService implements ISaleService
         return $totalPrice;
     }
 
-    public function isSaleExists($id)
+    public function getBranchSalesByMonth($month, $year)
     {
-        return $this->saleRepository->isExists($id);
+        $salesData = $this->saleRepository->getBranchSalesCountByMonth($month, $year);
+        $formattedData = [];
+        foreach ($salesData as $sale) {
+            $branch = $this->branchRepository->findById($sale->branch_id);
+            $formattedData[] = [
+                'branch' => $branch->name,
+                'sales' => $sale->count,
+            ];
+        }
+
+        return $formattedData;
+    }
+
+    public function getSoldProductQuantity($branchId, $productId, $startDate = null, $endDate = null)
+    {
+        return $this->saleRepository->getSoldProductQuantity($branchId, $productId, $startDate, $endDate);
     }
 }

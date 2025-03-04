@@ -4,6 +4,7 @@ namespace App\Repositories;
 interface IBranchInventory
 {
     public function getAllInventoriesByBranchID();
+    public function getCriticalProducts();
     public function getAllInventoryProducts($branch_id);
     public function getSpecificInventoryProduct($branch_id,$product_id);
     public function storeNewInventoryProducts(array $data);

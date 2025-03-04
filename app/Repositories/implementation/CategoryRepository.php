@@ -8,7 +8,7 @@ class CategoryRepository implements ICategory
 {
     public function getAll()
     {
-        return Category::get();
+        return Category::paginate(PAGINATE_COUNT);
     }
     public function findById($id)
     {

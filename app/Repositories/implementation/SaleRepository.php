@@ -28,13 +28,13 @@ class SaleRepository implements ISale
                 'users.name as customer_name',
                 'branches.name as branch_name'
             ])
-            ->get();
+            ->paginate(PAGINATE_COUNT);
     }
 
-    public function findByBranchId($branch_id)
+    public function findByBranchId($branch_id, $start_date = null, $end_date = null)
     {
-        return Sale::query()
-            ->join('users','sales.user_id' ,'=','users.id')
+        $query = Sale::query()
+            ->join('users', 'sales.user_id', '=', 'users.id')
             ->join('branches', 'sales.branch_id', '=', 'branches.id')
             ->select([
                 'sales.id',
@@ -43,8 +43,14 @@ class SaleRepository implements ISale
                 'users.name as customer_name',
                 'branches.name as branch_name'
             ])
-            ->where('sales.branch_id',$branch_id)
-            ->get();
+            ->where('sales.branch_id', $branch_id);
+
+        // Apply date range filter if provided
+        if ($start_date && $end_date) {
+            $query->whereBetween('sales.created_at', [$start_date . ' 00:00:00', $end_date . ' 23:59:59']);
+        }
+
+        return $query->get();
     }
 
     public function getSpecificSaleItems($sale_id)
@@ -113,6 +119,38 @@ class SaleRepository implements ISale
         }else{
             return false;
         }
+    }
+
+    public function getBranchSalesCountByMonth($month, $year)
+    {
+        return DB::table('sales')
+            ->selectRaw('branch_id, COUNT(*) as count')
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->groupBy('branch_id')
+            ->get();
+    }
+
+    public function getSoldProductQuantity($branch_id, $product_id , $start_date = null, $end_date = null)
+    {
+        $query = DB::table('sale_items')
+            ->join('sales', 'sale_items.sale_id', '=', 'sales.id')
+            ->join('products', 'sale_items.product_id', '=', 'products.id')
+            ->select([
+                'products.id',
+                'products.name',
+                DB::raw('SUM(sale_items.quantity) as total_quantity_sold')
+            ])
+            ->where('sales.branch_id', $branch_id)
+            ->where('sale_items.product_id', $product_id)
+            ->groupBy('products.id', 'products.name');
+
+        // Apply date range filter if provided
+        if ($start_date && $end_date) {
+            $query->whereBetween('sales.created_at', [$start_date . ' 00:00:00', $end_date . ' 23:59:59']);
+        }
+
+        return $query->get();
     }
 
     public function isExists($id)
