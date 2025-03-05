@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateBranchInventoryRequest;
+use App\Http\Requests\EditPharmacyRequest;
 use App\Services\IBranchInventoryService;
 use App\Services\IBranchService;
 use App\Services\IProductService;
@@ -50,7 +50,7 @@ class PharmacyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBranchInventoryRequest $request, $branch_id,$product_id)
+    public function update(EditPharmacyRequest $request, $branch_id,$product_id)
     {
         $data = $request->validated();
 

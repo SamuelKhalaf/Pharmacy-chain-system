@@ -26,9 +26,7 @@ class UpdateBranchInventoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'quantity'    => 'required|integer|min:0',
-            'price'       => 'required|numeric|min:1',
-            'critical_level'       => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:0',
         ];
     }
 }

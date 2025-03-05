@@ -22,6 +22,7 @@ class NotificationController extends Controller
 
     public function index(): Factory|Application|View
     {
+        // get all notifications for specific authenticated super admin only
         $notifications = $this->notificationService->getAllNotifications();
         return view('admin.notification.index',compact('notifications'));
     }

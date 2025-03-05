@@ -44,14 +44,6 @@
                                 <span class="text-success"><b>{{$inventory->product_name}}</b></span>
                             </p>
                             <div class="form-group">
-                                <label for="quantity">Product Quantity</label>
-                                <input type="number" class="form-control" id="quantity" name="quantity" value="{{$inventory->quantity ?? old('quantity')}}"
-                                       placeholder="Enter Product Quantity" min="0">
-                                @error('quantity')
-                                <small class="text-danger">{{$message}}</small>
-                                @enderror
-                            </div>
-                            <div class="form-group">
                                 <label for="price">Product Price</label>
                                 <input type="number" class="form-control" id="price" name="price" value="{{$inventory->price ?? old('price')}}"
                                        placeholder="Enter Price" min="1" step="0.01">

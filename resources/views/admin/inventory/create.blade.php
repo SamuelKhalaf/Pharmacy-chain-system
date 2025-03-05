@@ -72,22 +72,6 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-2">
-                                            <label>Price</label>
-                                            <input type="number" class="form-control" name="price[]" min="1" step="0.01">
-                                            @error('price.*')
-                                            <small class="text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <label>Critical Level</label>
-                                            <input type="number" class="form-control" name="critical_level[]" min="1">
-                                            @error('critical_level.*')
-                                            <small class="text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-
                                         <div class="col-md-2 text-center">
                                             <button type="button" class="btn btn-danger remove-product mt-4" disabled >Delete</button>
                                         </div>

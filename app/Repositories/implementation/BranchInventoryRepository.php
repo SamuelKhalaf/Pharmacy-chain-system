@@ -64,10 +64,6 @@ class BranchInventoryRepository implements IBranchInventory
                 if ($inventory) {
 
                     $inventory->increment('quantity', $data['quantity'][$index]);
-                    $inventory->update([
-                        'price' => $data['price'][$index],
-                        'critical_level' => $data['critical_level'][$index],
-                    ]);
 
                     $newInventoryRecords[] = $inventory;
                 } else {
@@ -75,8 +71,7 @@ class BranchInventoryRepository implements IBranchInventory
                         'branch_id'  => $data['branch_id'],
                         'product_id' => $product_id,
                         'quantity'   => $data['quantity'][$index],
-                        'price'      => $data['price'][$index],
-                        'critical_level'      => $data['critical_level'][$index],
+                        'price'      => 0,
                     ]);
                     $newInventoryRecords[] = $newInventoryRecord;
                 }

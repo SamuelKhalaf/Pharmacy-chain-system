@@ -194,8 +194,8 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('pharmacy.index')}}" class="nav-link ">
+                <li class="nav-item ">
+                    <a href="{{route('pharmacy.index')}}" class="nav-link {{setActive('pharmacy.index')}}">
                         <i class="nav-icon fas fa-clinic-medical"></i>
                         <p>
                             Pharmacy

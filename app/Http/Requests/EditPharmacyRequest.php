@@ -4,13 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 /**
- * @property int $branch_id
- * @property array $product_id
- * @property array $quantity
- * @property array $price
- * @property array $critical_level
+ * @property float $price
+ * @property int $critical_level
  */
-class CreateBranchInventoryRequest extends FormRequest
+class EditPharmacyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +25,8 @@ class CreateBranchInventoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'branch_id'   => 'required|exists:branches,id',
-            'product_id'  => 'required|array',
-            'product_id.*'=> 'exists:products,id',
-            'quantity'    => 'required|array',
-            'quantity.*'  => 'integer|min:0',
+            'price'          => 'required|numeric|min:1',
+            'critical_level' => 'required|integer|min:1',
         ];
     }
 }

@@ -51,22 +51,6 @@
                                 <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="price">Product Price</label>
-                                <input type="number" class="form-control" id="price" name="price" value="{{$inventory->price ?? old('price')}}"
-                                       placeholder="Enter Price" min="1" step="0.01">
-                                @error('price')
-                                <small class="text-danger">{{$message}}</small>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="critical_level">Critical Level</label>
-                                <input type="number" class="form-control" id="critical_level" name="critical_level" value="{{$inventory->critical_level ?? old('critical_level')}}"
-                                       placeholder="Enter critical_level" min="1">
-                                @error('price')
-                                <small class="text-danger">{{$message}}</small>
-                                @enderror
-                            </div>
                         </div>
                         <!-- /.card-body -->
 
