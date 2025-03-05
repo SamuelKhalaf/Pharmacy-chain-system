@@ -12,12 +12,14 @@ use App\Repositories\implementation\BranchInventoryRepository;
 use App\Repositories\implementation\BranchRepository;
 use App\Repositories\implementation\CategoryRepository;
 use App\Repositories\implementation\NotificationRepository;
+use App\Repositories\implementation\OrderRepository;
 use App\Repositories\implementation\ProductRepository;
 use App\Repositories\implementation\RoleRepository;
 use App\Repositories\implementation\SaleRepository;
 use App\Repositories\implementation\TransferRequestRepository;
 use App\Repositories\implementation\UserRepository;
 use App\Repositories\INotification;
+use App\Repositories\IOrder;
 use App\Repositories\IProduct;
 use App\Repositories\IRole;
 use App\Repositories\ISale;
@@ -34,12 +36,14 @@ use App\Services\implementation\BranchInventoryService;
 use App\Services\implementation\BranchService;
 use App\Services\implementation\CategoryService;
 use App\Services\implementation\NotificationService;
+use App\Services\implementation\OrderService;
 use App\Services\implementation\ProductService;
 use App\Services\implementation\RoleService;
 use App\Services\implementation\SaleService;
 use App\Services\implementation\TransferRequestService;
 use App\Services\implementation\UserService;
 use App\Services\INotificationService;
+use App\Services\IOrderService;
 use App\Services\IProductService;
 use App\Services\IRoleService;
 use App\Services\ISaleService;
@@ -76,6 +80,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(INotification::class,NotificationRepository::class);
         $this->app->bind(INotificationService::class,NotificationService::class);
         $this->app->bind(\App\Adapters\INotification::class,DatabaseNotificationAdapter::class);
+        $this->app->bind(IOrder::class,OrderRepository::class);
+        $this->app->bind(IOrderService::class,OrderService::class);
     }
 
     /**

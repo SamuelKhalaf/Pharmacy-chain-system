@@ -32,7 +32,7 @@ class AuthAdminController extends Controller
         if ($user->role_id === AdminRole::SuperAdmin->value) {
             return redirect()->route('home')->with(['success'=>'Login Successful']);
         } elseif ($user->role_id === AdminRole::BranchAdmin->value) {
-            return redirect()->route('pharmacy.index');
+            return redirect()->route('pharmacy.index')->with(['success'=>'Login Successful']);
         }
         return response()->view('errors.403', [], 403);
     }

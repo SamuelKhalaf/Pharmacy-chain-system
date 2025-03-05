@@ -11,10 +11,7 @@ class AuthAdminAdminService implements IAuthAdminService
 {
     public function login($credentials)
     {
-        if (!Auth::guard('admin')->attempt($credentials)){
-            return false;
-        }
-        return true;
+       return Auth::guard('admin')->attempt($credentials);
     }
 
     public function logout()

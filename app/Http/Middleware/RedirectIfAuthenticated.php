@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\AdminRole;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
@@ -21,10 +22,23 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                $user = Auth::guard($guard)->user();
+
+                if ($guard === 'admin' && $user) {
+                    switch ($user->role_id) {
+                        case AdminRole::SuperAdmin->value:
+                            return redirect()->route('home');
+                        case AdminRole::BranchAdmin->value:
+                            return redirect()->route('pharmacy.index');
+                        default:
+                            return response()->view('errors.403', [], 403);
+                    }
+                }
                 return redirect(RouteServiceProvider::HOME);
             }
         }
 
         return $next($request);
     }
+
 }
