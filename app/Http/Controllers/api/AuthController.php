@@ -18,7 +18,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::where(['email' => $fields['email']])->first();
-        if (!$user ){
+        if (!$user || !Hash::check($fields['password'],$user->password)){
             return response()->json(['status' => 'false' , 'msg' => 'the credentials are incorrect']);
         }
 
