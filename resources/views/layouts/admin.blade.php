@@ -157,6 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </script>
 {{--###################### Start Header ajax and jquery part ########################--}}
 {{--###################### this works for the transfer requests after accepted by the admin ########################--}}
+@can('super_admin')
 <script>
     $(document).ready(function () {
 
@@ -339,9 +340,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         loadNotifications();
     });
-
-
 </script>
+@endcan
 {{--###################### End Header ajax and jquery part ########################--}}
 @yield('scripts')
 </body>
