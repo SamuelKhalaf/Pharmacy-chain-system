@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Services\implementation;
 
 use App\Repositories\IBranch;
 use App\Repositories\IBranchInventory;
-use App\Repositories\implementation\RoleRepository;
 use App\Services\IBranchService;
-use App\Services\IRoleService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class BranchService implements IBranchService
@@ -13,42 +13,110 @@ class BranchService implements IBranchService
     protected IBranch $branchRepository;
     protected IBranchInventory $branchInventoryRepository;
 
-    public function __construct(IBranch $branchRepository , IBranchInventory $branchInventoryRepository)
+    /**
+     * BranchService constructor.
+     *
+     * @param IBranch $branchRepository
+     * @param IBranchInventory $branchInventoryRepository
+     */
+    public function __construct(IBranch $branchRepository, IBranchInventory $branchInventoryRepository)
     {
         $this->branchRepository = $branchRepository;
         $this->branchInventoryRepository = $branchInventoryRepository;
     }
 
-    public function getAllBranches()
+    /**
+     * Get all branches.
+     *
+     * @return Collection
+     */
+    public function getAllBranches(): Collection
     {
         return $this->branchRepository->getAll();
     }
 
-    public function getNewBranches()
+    /**
+     * Get all branches without the authenticated admin branch.
+     *
+     * @param $branch_id
+     * @return Collection
+     */
+    public function getWhereNotIn($branch_id): Collection
+    {
+        return $this->branchRepository->getWhereNotIn($branch_id);
+    }
+
+    /**
+     * Get other old branches without the authenticated admin branch.
+     *
+     * @return Collection
+     */
+    public function getOtherOldBranches(): Collection
+    {
+        return $this->branchRepository->getOtherOldBranches();
+    }
+
+    /**
+     * Get new branches.
+     *
+     * @return Collection
+     */
+    public function getNewBranches(): Collection
     {
         return $this->branchRepository->getNewBranches();
     }
-    public function getOldBranches()
+
+    /**
+     * Get old branches.
+     *
+     * @return Collection
+     */
+    public function getOldBranches(): Collection
     {
         return $this->branchRepository->getOldBranches();
     }
 
-    public function getOneBranch($id)
+    /**
+     * Get a single branch by ID.
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function getOneBranch(int $id): mixed
     {
         return $this->branchRepository->findById($id);
     }
 
-    public function createBranch(array $data)
+    /**
+     * Create a new branch.
+     *
+     * @param array $data
+     * @return int
+     */
+    public function createBranch(array $data): int
     {
         return $this->branchRepository->create($data);
     }
 
-    public function updateBranch(array $data,$id)
+    /**
+     * Update an existing branch.
+     *
+     * @param array $data
+     * @param int $id
+     * @return bool
+     */
+    public function updateBranch(array $data, int $id): bool
     {
         return $this->branchRepository->update($data, $id);
     }
 
-    public function deleteBranch($id)
+    /**
+     * Delete a branch and all its inventory products.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteBranch(int $id): bool
     {
         try {
             DB::beginTransaction();
@@ -56,7 +124,7 @@ class BranchService implements IBranchService
             $this->branchRepository->delete($id);
             DB::commit();
             return true;
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             return false;
         }

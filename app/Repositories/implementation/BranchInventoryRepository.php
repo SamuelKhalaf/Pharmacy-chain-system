@@ -3,16 +3,27 @@ namespace App\Repositories\implementation;
 
 use App\Models\BranchInventory;
 use App\Repositories\IBranchInventory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class BranchInventoryRepository implements IBranchInventory
 {
-    public function getAllInventoriesByBranchID()
+    /**
+     * Get all branch inventory IDs.
+     *
+     * @return array
+     */
+    public function getAllInventoriesByBranchID(): array
     {
         return BranchInventory::pluck('branch_id')->toArray();
     }
 
+    /**
+     * Get products that have reached their critical stock level.
+     *
+     * @return Collection
+     */
     public function getCriticalProducts(): Collection
     {
         return DB::table('branch_inventory')
@@ -27,7 +38,13 @@ class BranchInventoryRepository implements IBranchInventory
             ->get();
     }
 
-    public function getAllInventoryProducts($branch_id): Collection
+    /**
+     * Get all inventory products for a specific branch.
+     *
+     * @param int $branch_id
+     * @return Collection
+     */
+    public function getAllInventoryProducts(int $branch_id): Collection
     {
         return DB::table('branch_inventory')
             ->join('products', 'branch_inventory.product_id', '=', 'products.id')
@@ -42,15 +59,28 @@ class BranchInventoryRepository implements IBranchInventory
             ->get();
     }
 
-    public function getSpecificInventoryProduct($branch_id, $product_id): object|null
+    /**
+     * Get a specific inventory product by branch and product ID.
+     *
+     * @param int $branch_id
+     * @param int $product_id
+     * @return object|null
+     */
+    public function getSpecificInventoryProduct(int $branch_id, int $product_id): ?object
     {
         return BranchInventory::query()
-            ->where('branch_id',$branch_id)
-            ->where('product_id',$product_id)
+            ->where('branch_id', $branch_id)
+            ->where('product_id', $product_id)
             ->first();
     }
 
-    public function storeNewInventoryProducts(array $data): bool|array
+    /**
+     * Store new inventory products.
+     *
+     * @param array $data
+     * @return array|bool
+     */
+    public function storeNewInventoryProducts(array $data): array|bool
     {
         try {
             DB::beginTransaction();
@@ -62,18 +92,15 @@ class BranchInventoryRepository implements IBranchInventory
                     ->first();
 
                 if ($inventory) {
-
                     $inventory->increment('quantity', $data['quantity'][$index]);
-
                     $newInventoryRecords[] = $inventory;
                 } else {
-                    $newInventoryRecord = BranchInventory::create([
+                    $newInventoryRecords[] = BranchInventory::create([
                         'branch_id'  => $data['branch_id'],
                         'product_id' => $product_id,
                         'quantity'   => $data['quantity'][$index],
                         'price'      => 0,
                     ]);
-                    $newInventoryRecords[] = $newInventoryRecord;
                 }
             }
 
@@ -85,20 +112,31 @@ class BranchInventoryRepository implements IBranchInventory
         }
     }
 
-
-    public function updateSpecificInventoryProduct(array $data, $branch_id,$product_id): bool|int
+    /**
+     * Update a specific inventory product.
+     *
+     * @param array $data
+     * @param int $branch_id
+     * @param int $product_id
+     * @return bool|int
+     */
+    public function updateSpecificInventoryProduct(array $data, int $branch_id, int $product_id): bool|int
     {
-        if ($this->isInventoryExists($branch_id)){
-            return  BranchInventory::query()
-                ->where('branch_id',$branch_id)
-                ->where('product_id',$product_id)
-                ->update($data);
-        }
-        return false;
-   }
+        return BranchInventory::query()
+                ->where('branch_id', $branch_id)
+                ->where('product_id', $product_id)
+                ->update($data) > 0;
+    }
 
-    // add the products to the inventory which we will send the products
-    public function addProductsToInventory($to_branch_id ,$product_id , $quantity): bool
+    /**
+     * Add products to a branch's inventory.
+     *
+     * @param int $to_branch_id
+     * @param int $product_id
+     * @param int $quantity
+     * @return bool
+     */
+    public function addProductsToInventory(int $to_branch_id, int $product_id, int $quantity): bool
     {
         try {
             $existingToBranchProduct = BranchInventory::query()
@@ -107,9 +145,7 @@ class BranchInventoryRepository implements IBranchInventory
                 ->first();
 
             if ($existingToBranchProduct) {
-                $existingToBranchProduct->update([
-                    'quantity' => $existingToBranchProduct->quantity + $quantity,
-                ]);
+                $existingToBranchProduct->increment('quantity', $quantity);
             } else {
                 BranchInventory::create([
                     'branch_id'      => $to_branch_id,
@@ -120,64 +156,87 @@ class BranchInventoryRepository implements IBranchInventory
                 ]);
             }
             return true;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return false;
         }
     }
 
-    // reduce the products from the inventory which we will send the products
-    public function reduceProductsFromInventory($from_branch_id ,$product_id , $quantity): bool
+    /**
+     * Reduce products from a branch's inventory.
+     *
+     * @param int $from_branch_id
+     * @param int $product_id
+     * @param int $quantity
+     * @return bool
+     */
+    public function reduceProductsFromInventory(int $from_branch_id, int $product_id, int $quantity): bool
     {
         try {
             $fromBranchProduct = BranchInventory::query()
                 ->where('branch_id', $from_branch_id)
-                ->where('product_id' , $product_id)
+                ->where('product_id', $product_id)
                 ->first();
 
-            $fromBranchProduct->update([
-                'quantity' => $fromBranchProduct->quantity - $quantity,
-            ]);
-            $productAfterUpdated = $fromBranchProduct->refresh();
-            if ($productAfterUpdated->quantity < 1){
-                $productAfterUpdated->delete();
+            if (!$fromBranchProduct) {
+                return false;
             }
+
+            $fromBranchProduct->decrement('quantity', $quantity);
+
+            if ($fromBranchProduct->fresh()->quantity < 1) {
+                $fromBranchProduct->delete();
+            }
+
             return true;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return false;
         }
     }
 
-    public function deleteAllInventoryProducts($branch_id)
+    /**
+     * Delete all inventory products for a branch.
+     *
+     * @param int $branch_id
+     * @return bool
+     */
+    public function deleteAllInventoryProducts(int $branch_id): bool
     {
-        if ($this->isInventoryExists($branch_id)){
-            return  BranchInventory::query()
-                ->where('branch_id',$branch_id)
-                ->delete();
-        }
-        return false;
-    }
-    public function deleteSpecificProductsFromAllInventories(array|string $productIds)
-    {
-        if (is_string($productIds)) {
-            $productIds = [$productIds];
-        }
-
-        return BranchInventory::whereIn('product_id', $productIds)->delete();
+        return BranchInventory::where('branch_id', $branch_id)->delete() > 0;
     }
 
-    public function deleteSpecificInventoryProduct($branch_id, $product_id)
+    /**
+     * Delete specific products from all inventories.
+     *
+     * @param array|string $productIds
+     * @return int
+     */
+    public function deleteSpecificProductsFromAllInventories(array|string $productIds): int
     {
-        if ($this->isInventoryExists($branch_id)){
-            return  BranchInventory::query()
-                ->where('branch_id',$branch_id)
-                ->where('product_id',$product_id)
-                ->delete();
-        }
-        return false;
+        return BranchInventory::whereIn('product_id', (array) $productIds)->delete();
     }
 
-    public function isInventoryExists($branch_id)
+    /**
+     * Delete a specific inventory product from a branch.
+     *
+     * @param int $branch_id
+     * @param int $product_id
+     * @return bool
+     */
+    public function deleteSpecificInventoryProduct(int $branch_id, int $product_id): bool
     {
-        return BranchInventory::where('branch_id',$branch_id)->exists();
+        return BranchInventory::where('branch_id', $branch_id)
+                ->where('product_id', $product_id)
+                ->delete() > 0;
+    }
+
+    /**
+     * Check if a branch inventory exists.
+     *
+     * @param int $branch_id
+     * @return bool
+     */
+    public function isInventoryExists(int $branch_id): bool
+    {
+        return BranchInventory::where('branch_id', $branch_id)->exists();
     }
 }

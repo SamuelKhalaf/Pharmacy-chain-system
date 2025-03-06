@@ -3,5 +3,11 @@ namespace App\Adapters;
 
 interface INotification
 {
-    public function send($data);
+    /**
+     * Send a notification.
+     *
+     * @param array $data Notification data
+     * @return void
+     */
+    public function send(array $data): void;
 }

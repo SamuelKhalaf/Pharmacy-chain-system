@@ -5,6 +5,7 @@ namespace App\Rules;
 use App\Models\BranchInventory;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class ProductExistsInBranch implements ValidationRule
 {
@@ -17,7 +18,7 @@ class ProductExistsInBranch implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param Closure(string): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

@@ -1,13 +1,19 @@
 <?php
+
 namespace App\Services\implementation;
 
+use App\Models\Product;
 use App\Repositories\IBranchInventory;
 use App\Repositories\IProduct;
 use App\Services\IProductService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 /**
- *
+ * Class ProductService
+ * Manages product-related operations.
  */
 class ProductService implements IProductService
 {
@@ -15,59 +21,75 @@ class ProductService implements IProductService
      * @var IProduct
      */
     protected IProduct $productRepository;
+
+    /**
+     * @var IBranchInventory
+     */
     protected IBranchInventory $branchInventoryRepository;
 
     /**
+     * ProductService constructor.
+     *
      * @param IProduct $productRepository
      * @param IBranchInventory $branchInventoryRepository
      */
-    public function __construct(IProduct $productRepository,IBranchInventory $branchInventoryRepository)
+    public function __construct(IProduct $productRepository, IBranchInventory $branchInventoryRepository)
     {
         $this->productRepository = $productRepository;
         $this->branchInventoryRepository = $branchInventoryRepository;
     }
 
     /**
-     * @return mixed
+     * Retrieve all products.
+     *
+     * @return LengthAwarePaginator
      */
-    public function getAllProducts()
+    public function getAllProducts(): LengthAwarePaginator
     {
         return $this->productRepository->getAll();
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * Retrieve a specific product by its ID.
+     *
+     * @param int $id
+     * @return Product|null
      */
-    public function getOneProduct($id)
+    public function getOneProduct(int $id): ?Product
     {
         return $this->productRepository->findById($id);
     }
 
     /**
+     * Create a new product.
+     *
      * @param array $data
-     * @return mixed
+     * @return int
      */
-    public function createProduct(array $data)
+    public function createProduct(array $data): int
     {
         return $this->productRepository->create($data);
     }
 
     /**
+     * Update an existing product by its ID.
+     *
      * @param array $data
-     * @param $id
-     * @return mixed
+     * @param int $id
+     * @return bool
      */
-    public function updateProduct(array $data, $id)
+    public function updateProduct(array $data, int $id): bool
     {
         return $this->productRepository->update($data, $id);
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * Delete a product by its ID.
+     *
+     * @param int $id
+     * @return bool
      */
-    public function deleteProduct($id)
+    public function deleteProduct(int $id): bool
     {
         try {
             DB::beginTransaction();
@@ -77,30 +99,42 @@ class ProductService implements IProductService
 
             DB::commit();
             return true;
-
-        }catch (\Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return false;
         }
     }
 
-    public function deleteProductByCategoryId($category_id)
+    /**
+     * Delete all products associated with a specific category.
+     *
+     * @param int $category_id
+     * @return bool
+     */
+    public function deleteProductByCategoryId(int $category_id): bool
     {
         try {
             DB::beginTransaction();
-            $productIds = $this->productRepository->deleteProductsByCategoryId($category_id);
 
+            $productIds = $this->productRepository->deleteProductsByCategoryId($category_id);
             $this->branchInventoryRepository->deleteSpecificProductsFromAllInventories($productIds);
 
             DB::commit();
             return true;
-        }catch (\Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return false;
         }
     }
 
-    public function getTopSellingProducts($year, $limit = 5)
+    /**
+     * Get the top-selling products for a specific year.
+     *
+     * @param int $year
+     * @param int $limit Default is 5
+     * @return Collection
+     */
+    public function getTopSellingProducts(int $year, int $limit = 5): Collection
     {
         return $this->productRepository->getTopSellingProducts($year, $limit);
     }

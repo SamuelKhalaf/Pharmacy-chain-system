@@ -3,48 +3,73 @@ namespace App\Repositories\implementation;
 
 use App\Models\Role;
 use App\Repositories\IRole;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class RoleRepository implements IRole
 {
-    public function getAll()
+    /**
+     * Get all roles with pagination.
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getAll(): LengthAwarePaginator
     {
         return Role::paginate(PAGINATE_COUNT);
     }
 
-    public function findById($id)
+    /**
+     * Find a role by ID.
+     *
+     * @param int $id
+     * @return Role|null
+     */
+    public function findById(int $id): ?Role
     {
-        if ($this->isExists($id)){
-            return Role::where('id',$id)->first();
-        }else{
-            return false;
-        }
+        return $this->isExists($id) ? Role::where('id', $id)->first() : null;
     }
 
-    public function create(array $data)
+    /**
+     * Create a new role and return its ID.
+     *
+     * @param array $data
+     * @return int
+     */
+    public function create(array $data): int
     {
         return Role::insertGetId($data);
     }
 
-    public function update(array $data, $id)
+    /**
+     * Update a role by ID.
+     *
+     * @param array $data
+     * @param int $id
+     * @return bool
+     */
+    public function update(array $data, int $id): bool
     {
-        if ($this->isExists($id)){
-            return Role::where('id',$id)->update($data);
-        }else{
-            return false;
-        }
+        return $this->isExists($id) ? Role::where('id', $id)->update($data) : false;
     }
 
-    public function delete($id)
+    /**
+     * Delete a role by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
-        if ($this->isExists($id)){
-            return Role::where('id',$id)->delete();
-        }else{
-            return false;
-        }
+        return $this->isExists($id) ? Role::where('id', $id)->delete() : false;
     }
 
-    public function isExists($id)
+    /**
+     * Check if a role exists by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function isExists(int $id): bool
     {
-        return Role::where('id',$id)->exists();
+        return Role::where('id', $id)->exists();
     }
 }

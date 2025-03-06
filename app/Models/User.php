@@ -55,7 +55,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function setPasswordAttribute($value)
+    /**
+     * @param $value
+     * @return void
+     */
+    public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = bcrypt($value);
     }

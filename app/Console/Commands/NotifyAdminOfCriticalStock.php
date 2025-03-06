@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Adapters\INotification;
 use App\Enums\AdminRole;
-use App\Models\Notification;
 use App\Services\IAdminService;
 use App\Services\IBranchInventoryService;
 use App\Services\INotificationService;
@@ -27,40 +25,29 @@ class NotifyAdminOfCriticalStock extends Command
     protected $description = 'Notify admin if products quantities are at critical level or below';
     protected IBranchInventoryService $branchInventoryService;
     protected IAdminService $adminService;
-    protected INotification $notificationAdapter;
+    protected INotificationService $notificationService;
 
-    public function __construct(INotification $notificationAdapter ,IBranchInventoryService $branchInventoryService , IAdminService $adminService)
-    {
+    public function __construct(
+        IBranchInventoryService $branchInventoryService,
+        IAdminService $adminService,
+        INotificationService $notificationService
+    ) {
         parent::__construct();
         $this->branchInventoryService = $branchInventoryService;
         $this->adminService = $adminService;
-        $this->notificationAdapter = $notificationAdapter;
+        $this->notificationService = $notificationService;
     }
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $criticalProducts = $this->branchInventoryService->getCriticalProducts();
-        $superAdmins = $this->adminService->getByRoleId(AdminRole::SuperAdmin);
-        if ($criticalProducts->isNotEmpty()) {
-            foreach ($superAdmins as $superAdmin)
-            {
-                foreach ($criticalProducts as $product)
-                {
-                    $this->notificationAdapter->send([
-                        'admin_id' => $superAdmin->id,
-                        'data' => json_encode([
-                            'text' => "Product reached critical level.",
-                            'product_name' => $product->product_name,
-                            'branch_name' => $product->branch_name,
-                            'product_quantity' => $product->quantity,
-                            'critical_level' => $product->critical_level
-                        ]),
-                        'is_read' => false,
-                    ]);
-                }
-            }
+        $critical_products = $this->branchInventoryService->getCriticalProducts();
+        $super_admins = $this->adminService->getByRoleId(AdminRole::SuperAdmin->value);
+        if ($critical_products->isNotEmpty()) {
+
+            $this->notificationService->notifyAdminOfCriticalStock((array)$super_admins, (array)$critical_products);
+
             $this->info('Critical stock notifications stored in database.');
         } else {
             $this->info('No critical stock found.');

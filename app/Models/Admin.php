@@ -5,7 +5,6 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 /**
  * Class Admin
  *
@@ -41,17 +40,27 @@ class Admin extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function setPasswordAttribute($value)
+    /**
+     * @param $value
+     * @return void
+     */
+    public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function getRoleNameAttribute()
+    /**
+     * @return mixed
+     */
+    public function getRoleNameAttribute(): mixed
     {
         return Role::where('id',$this->role_id)->pluck('name')->first();
     }
 
-    public function getBranchNameAttribute()
+    /**
+     * @return string
+     */
+    public function getBranchNameAttribute(): string
     {
         return Branch::where('id',$this->branch_id)->pluck('name')->first() ?? 'N/A';
     }

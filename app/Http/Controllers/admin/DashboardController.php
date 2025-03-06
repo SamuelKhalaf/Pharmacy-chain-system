@@ -3,30 +3,44 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use App\Services\IProductService;
 use App\Services\ISaleService;
-use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
     protected ISaleService $saleService;
     protected IProductService $productService;
 
-    public function __construct(ISaleService $saleService , IProductService $productService)
+    /**
+     * @param ISaleService $saleService
+     * @param IProductService $productService
+     */
+    public function __construct(ISaleService $saleService, IProductService $productService)
     {
         $this->saleService = $saleService;
         $this->productService = $productService;
     }
 
-    public function index()
+    /**
+     * Display the dashboard view.
+     *
+     * @return View
+     */
+    public function index(): View
     {
         return view('admin.dashboard');
     }
 
-    public function getSalesCount(Request $request)
+    /**
+     * Get sales count for a given month and year.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getSalesCount(Request $request): JsonResponse
     {
         $month = $request->input('month', date('m'));
         $year = $request->input('year', date('Y'));
@@ -35,7 +49,13 @@ class DashboardController extends Controller
         return response()->json($salesData);
     }
 
-    public function getTopSellingProducts(Request $request)
+    /**
+     * Get the top-selling products for a given year.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getTopSellingProducts(Request $request): JsonResponse
     {
         $year = $request->input('year', now()->year);
         $topProducts = $this->productService->getTopSellingProducts($year);

@@ -20,7 +20,10 @@ class Product extends Model
         'category_id',
     ];
 
-    public function getCategoryNameAttribute()
+    /**
+     * @return mixed
+     */
+    public function getCategoryNameAttribute(): mixed
     {
         return Category::where('id' , $this->category_id)->pluck('name')->first();
     }

@@ -3,47 +3,73 @@ namespace App\Repositories\implementation;
 
 use App\Models\Category;
 use App\Repositories\ICategory;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryRepository implements ICategory
 {
-    public function getAll()
+    /**
+     * Get all categories with pagination.
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getAll(): LengthAwarePaginator
     {
         return Category::paginate(PAGINATE_COUNT);
     }
-    public function findById($id)
+
+    /**
+     * Find a category by ID.
+     *
+     * @param int $id
+     * @return Category|null
+     */
+    public function findById(int $id): ?Category
     {
-        if ($this->isExists($id)){
-            return Category::where('id',$id)->first();
-        }else{
-            return false;
-        }
+        return Category::find($id);
     }
 
-    public function create(array $data)
+    /**
+     * Create a new category and return its ID.
+     *
+     * @param array $data
+     * @return int
+     */
+    public function create(array $data): int
     {
         return Category::create($data)->id;
     }
 
-    public function update(array $data, $id)
+    /**
+     * Update a category by ID.
+     *
+     * @param array $data
+     * @param int $id
+     * @return bool
+     */
+    public function update(array $data, int $id): bool
     {
-        if ($this->isExists($id)){
-            return Category::where('id',$id)->update($data);
-        }else{
-            return false;
-        }
+        return Category::where('id', $id)->update($data) > 0;
     }
 
-    public function delete($id)
+    /**
+     * Delete a category by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
-        if ($this->isExists($id)){
-            return Category::where('id',$id)->delete();
-        }else{
-            return false;
-        }
+        return Category::destroy($id) > 0;
     }
 
-    public function isExists($id)
+    /**
+     * Check if a category exists by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function isExists(int $id): bool
     {
-        return Category::where('id',$id)->exists();
+        return Category::whereKey($id)->exists();
     }
 }

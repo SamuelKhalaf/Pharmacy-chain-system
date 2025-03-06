@@ -13,7 +13,13 @@ class DatabaseNotificationAdapter implements INotification
     {
         $this->notificationService = $notificationService;
     }
-    public function send($data)
+    /**
+     * Send a notification using the notification service.
+     *
+     * @param array $data
+     * @return void
+     */
+    public function send(array $data): void
     {
         $this->notificationService->createNotification($data);
     }

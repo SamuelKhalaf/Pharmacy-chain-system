@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Services\IBranchInventoryService;
 use App\Services\IBranchService;
 use App\Services\ISaleService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -14,19 +18,39 @@ class ReportsController extends Controller
     protected ISaleService $saleService;
     protected IBranchInventoryService $branchInventoryService;
 
-    public function __construct(IBranchService $branchService , ISaleService $saleService , IBranchInventoryService $branchInventoryService)
-    {
+    /**
+     * @param IBranchService $branchService
+     * @param ISaleService $saleService
+     * @param IBranchInventoryService $branchInventoryService
+     */
+    public function __construct(
+        IBranchService $branchService,
+        ISaleService $saleService,
+        IBranchInventoryService $branchInventoryService
+    ) {
         $this->branchInventoryService = $branchInventoryService;
         $this->branchService = $branchService;
         $this->saleService = $saleService;
     }
-    public function getBranchInvoices()
+
+    /**
+     * Display the branch invoices report page.
+     *
+     * @return Factory|Application|View
+     */
+    public function getBranchInvoices(): Factory|Application|View
     {
         $branches = $this->branchService->getAllBranches();
-        return view('admin.reports.invoices',compact('branches'));
+        return view('admin.reports.invoices', compact('branches'));
     }
 
-    public function getInvoices(Request $request)
+    /**
+     * Get invoices for a specific branch within a date range.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getInvoices(Request $request): JsonResponse
     {
         $request->validate([
             'branch_id' => 'required|exists:branches,id',
@@ -43,14 +67,24 @@ class ReportsController extends Controller
         return response()->json(['data' => $invoices]);
     }
 
-    public function getSoldProductsCount()
+    /**
+     * Display the sold products count report page.
+     *
+     * @return Factory|Application|View
+     */
+    public function getSoldProductsCount(): Factory|Application|View
     {
         $branches = $this->branchService->getAllBranches();
-
         return view('admin.reports.product-quantity', compact(['branches']));
     }
 
-    public function getProductCount(Request $request)
+    /**
+     * Get the quantity of a specific product sold within a date range.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getProductCount(Request $request): JsonResponse
     {
         $request->validate([
             'branch_id' => 'required|exists:branches,id',
@@ -69,7 +103,13 @@ class ReportsController extends Controller
         return response()->json(['data' => $soldProduct]);
     }
 
-    public function getProductsByBranch(Request $request)
+    /**
+     * Get all products available in a specific branch's inventory.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getProductsByBranch(Request $request): JsonResponse
     {
         $request->validate(['branch_id' => 'required|exists:branches,id']);
 

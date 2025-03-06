@@ -1,14 +1,17 @@
 <?php
+
 namespace App\Services\implementation;
 
-use App\Enums\UserRole;
-use App\Repositories\implementation\RoleRepository;
+use App\Models\User;
 use App\Repositories\IUser;
-use App\Services\IRoleService;
 use App\Services\IUserService;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
+ * Class UserService
  *
+ * Handles user management operations.
  */
 class UserService implements IUserService
 {
@@ -18,6 +21,8 @@ class UserService implements IUserService
     protected IUser $userRepository;
 
     /**
+     * UserService constructor.
+     *
      * @param IUser $userRepository
      */
     public function __construct(IUser $userRepository)
@@ -26,46 +31,56 @@ class UserService implements IUserService
     }
 
     /**
-     * @return mixed
+     * Retrieve all users.
+     *
+     * @return LengthAwarePaginator
      */
-    public function getAllUsers()
+    public function getAllUsers(): LengthAwarePaginator
     {
         return $this->userRepository->getAll();
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * Retrieve a specific user by ID.
+     *
+     * @param int $id
+     * @return bool|User|null
      */
-    public function getOneUser($id)
+    public function getOneUser(int $id): bool|null|User
     {
         return $this->userRepository->findById($id);
     }
 
     /**
+     * Create a new user.
+     *
      * @param array $data
-     * @return mixed
+     * @return int
      */
-    public function createUser(array $data)
+    public function createUser(array $data): int
     {
         return $this->userRepository->create($data);
     }
 
     /**
+     * Update an existing user.
+     *
      * @param array $data
-     * @param $id
-     * @return mixed
+     * @param int $id
+     * @return bool
      */
-    public function updateUser(array $data, $id)
+    public function updateUser(array $data, int $id): bool
     {
         return $this->userRepository->update($data, $id);
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * Delete a user by ID.
+     *
+     * @param int $id
+     * @return bool
      */
-    public function deleteUser($id)
+    public function deleteUser(int $id): bool
     {
         return $this->userRepository->delete($id);
     }

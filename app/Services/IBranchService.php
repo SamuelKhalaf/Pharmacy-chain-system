@@ -1,13 +1,77 @@
 <?php
+
 namespace App\Services;
+
+use Illuminate\Database\Eloquent\Collection;
 
 interface IBranchService
 {
-    public function getAllBranches();
-    public function getNewBranches();
-    public function getOldBranches();
-    public function getOneBranch($id);
-    public function createBranch(array $data);
-    public function updateBranch(array $data,$id);
-    public function deleteBranch($id);
+    /**
+     * Get all branches.
+     *
+     * @return Collection
+     */
+    public function getAllBranches(): Collection;
+
+    /**
+     * Get all branches without the authenticated admin branch.
+     *
+     * @param $branch_id
+     * @return Collection
+     */
+    public function getWhereNotIn($branch_id): Collection;
+
+    /**
+     * Get other old branches without the authenticated admin branch.
+     *
+     * @return Collection
+     */
+    public function getOtherOldBranches(): Collection;
+
+    /**
+     * Get newly created branches.
+     *
+     * @return Collection
+     */
+    public function getNewBranches(): Collection;
+
+    /**
+     * Get old branches.
+     *
+     * @return Collection
+     */
+    public function getOldBranches(): Collection;
+
+    /**
+     * Get a single branch by ID.
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function getOneBranch(int $id): mixed;
+
+    /**
+     * Create a new branch.
+     *
+     * @param array $data
+     * @return int
+     */
+    public function createBranch(array $data): int;
+
+    /**
+     * Update an existing branch.
+     *
+     * @param array $data
+     * @param int $id
+     * @return bool
+     */
+    public function updateBranch(array $data, int $id): bool;
+
+    /**
+     * Delete a branch and all its inventory products.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteBranch(int $id): bool;
 }

@@ -6,6 +6,7 @@ use App\Models\OrderItem;
 use App\Repositories\IBranchInventory;
 use App\Repositories\IOrder;
 use App\Repositories\IProduct;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class OrderRepository implements IOrder
@@ -18,7 +19,13 @@ class OrderRepository implements IOrder
         $this->branchInventoryRepository = $branchInventoryRepository;
         $this->productRepository = $productRepository;
     }
-    public function getAllOrders()
+
+    /**
+     * Get all orders with their branch names and items.
+     *
+     * @return Collection|null
+     */
+    public function getAllOrders(): ?Collection
     {
         $orders = DB::table('orders')
             ->join('branches', 'orders.branch_id', '=', 'branches.id')
@@ -40,7 +47,13 @@ class OrderRepository implements IOrder
         return $orders;
     }
 
-    public function findOrderById($id)
+    /**
+     * Find an order by its ID.
+     *
+     * @param int $id
+     * @return object|null
+     */
+    public function findOrderById(int $id): ?object
     {
         $orderData = DB::table('orders')
             ->where('orders.id', '=', $id)
@@ -63,8 +76,15 @@ class OrderRepository implements IOrder
         return $orderData;
     }
 
-
-    public function createOrder($user_id, $branchId, $items)
+    /**
+     * Create a new order.
+     *
+     * @param int $user_id
+     * @param int $branchId
+     * @param array $items
+     * @return object|bool
+     */
+    public function createOrder(int $user_id, int $branchId, array $items): object|bool
     {
         try {
             DB::beginTransaction();
@@ -100,7 +120,13 @@ class OrderRepository implements IOrder
         }
     }
 
-    public function acceptOrder($id)
+    /**
+     * Accept an order and reduce product quantities from inventory.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function acceptOrder(int $id): bool
     {
         try {
             DB::beginTransaction();
@@ -129,7 +155,13 @@ class OrderRepository implements IOrder
         }
     }
 
-    public function cancelOrder($id)
+    /**
+     * Cancel an order if it's still pending.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function cancelOrder(int $id): bool
     {
         $order = $this->findOrderById($id);
         if (!$order || $order->status !== 'pending') {
@@ -140,7 +172,13 @@ class OrderRepository implements IOrder
             ->update(['status' => 'canceled']);
     }
 
-    public function getOrderItems($id)
+    /**
+     * Get all items of a specific order.
+     *
+     * @param int $id
+     * @return \Illuminate\Support\Collection
+     */
+    public function getOrderItems(int $id): \Illuminate\Support\Collection
     {
         return DB::table('order_items')
             ->where('order_items.order_id', '=', $id)

@@ -31,17 +31,26 @@ class TransferRequest extends Model
         'status',
     ];
 
-    public function getFromBranchNameAttribute()
+    /**
+     * @return mixed
+     */
+    public function getFromBranchNameAttribute(): mixed
     {
         return Branch::where('id',$this->from_branch_id)->pluck('name')->first();
     }
 
-    public function getToBranchNameAttribute()
+    /**
+     * @return mixed
+     */
+    public function getToBranchNameAttribute(): mixed
     {
         return Branch::where('id',$this->to_branch_id)->pluck('name')->first();
     }
 
-    public function getProductNameAttribute()
+    /**
+     * @return mixed
+     */
+    public function getProductNameAttribute(): mixed
     {
         return Product::where('id',$this->product_id)->pluck('name')->first();
     }

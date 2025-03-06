@@ -7,53 +7,91 @@ use Illuminate\Database\Eloquent\Collection;
 
 class NotificationRepository implements INotification
 {
-    public function getAll()
+    /**
+     * Get all notifications for the authenticated admin.
+     *
+     * @return Collection
+     */
+    public function getAll(): Collection
     {
         return Notification::query()
             ->where('admin_id', auth()->id())
-            ->orderBy('created_at', 'desc')
+            ->orderByDesc('created_at')
             ->get();
     }
 
-    public function getUnReadNotification(): Collection|array
+    /**
+     * Get the last 4 unread notifications for the authenticated admin.
+     *
+     * @return Collection
+     */
+    public function getUnReadNotification(): Collection
     {
         return Notification::query()
-            ->where('is_read', '=' , false)
+            ->where('is_read', false)
             ->where('admin_id', auth()->id())
-            ->orderBy('created_at', 'desc')
+            ->orderByDesc('created_at')
             ->limit(4)
             ->get();
     }
 
-    public function getBy($column,$operator,$value)
+    /**
+     * Get notifications by a specific column condition.
+     *
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @return Collection
+     */
+    public function getBy(string $column, string $operator, mixed $value): Collection
     {
         return Notification::query()
-            ->where($column,$operator,$value)
+            ->where($column, $operator, $value)
             ->get();
     }
 
-    public function findById($id)
+    /**
+     * Find a notification by ID.
+     *
+     * @param int $id
+     * @return Notification|null
+     */
+    public function findById(int $id): ?Notification
     {
-        if ($this->isExists($id)){
-            return Notification::where('id',$id)->first();
-        }else{
-            return false;
-        }
+        return Notification::find($id);
     }
 
-    public function create(array $data)
+    /**
+     * Create a new notification.
+     *
+     * @param array $data
+     * @return Notification
+     */
+    public function create(array $data): Notification
     {
         return Notification::create($data);
     }
 
-    public function update($data , $id)
+    /**
+     * Update a notification by ID.
+     *
+     * @param array $data
+     * @param int $id
+     * @return bool
+     */
+    public function update(array $data, int $id): bool
     {
-        return Notification::where('id', $id)->update($data);
+        return (bool) Notification::where('id', $id)->update($data);
     }
 
-    public function isExists($id)
+    /**
+     * Check if a notification exists.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function isExists(int $id): bool
     {
-        return Notification::where('id',$id)->exists();
+        return Notification::where('id', $id)->exists();
     }
-
 }

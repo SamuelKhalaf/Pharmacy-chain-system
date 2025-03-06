@@ -5,7 +5,6 @@ namespace App\Rules;
 use App\Models\BranchInventory;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
 class AvailableQuantityRule implements ValidationRule

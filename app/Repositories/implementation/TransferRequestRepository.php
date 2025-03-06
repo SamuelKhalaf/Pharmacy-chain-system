@@ -3,25 +3,44 @@ namespace App\Repositories\implementation;
 
 use App\Models\TransferRequest;
 use App\Repositories\ITransferRequest;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class TransferRequestRepository implements ITransferRequest
 {
-    public function getAll()
+    /**
+     * Get all transfer requests with pagination.
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getAll(): LengthAwarePaginator
     {
         return TransferRequest::paginate(PAGINATE_COUNT);
     }
 
-    public function findById($id)
+    /**
+     * Find a transfer request by ID.
+     *
+     * @param int $id
+     * @return TransferRequest|bool|null
+     */
+    public function findById(int $id): TransferRequest|bool|null
     {
-        if ($this->isExists($id)){
-            return TransferRequest::where('id',$id)->first();
-        }else{
-            return false;
+        if ($this->isExists($id)) {
+            return TransferRequest::where('id', $id)->first();
         }
+        return false;
     }
 
-    public function create(array $data)
+    /**
+     * Create a new transfer request.
+     *
+     * @param array $data
+     * @return int
+     */
+    public function create(array $data): int
     {
         return TransferRequest::create([
             'from_branch_id' => $data['from_branch_id'],
@@ -32,35 +51,63 @@ class TransferRequestRepository implements ITransferRequest
         ])->id;
     }
 
-    public function update(array $data, $id)
+    /**
+     * Update an existing transfer request.
+     *
+     * @param array $data
+     * @param int $id
+     * @return bool
+     */
+    public function update(array $data, int $id): bool
     {
-        if ($this->isExists($id)){
-            return TransferRequest::where('id',$id)->update($data);
-        }else{
-            return false;
+        if ($this->isExists($id)) {
+            return TransferRequest::where('id', $id)->update($data);
         }
+        return false;
     }
 
-    public function delete($id)
+    /**
+     * Delete a transfer request by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
-        if ($this->isExists($id)){
-            return TransferRequest::where('id',$id)->delete();
-        }else{
-            return false;
+        if ($this->isExists($id)) {
+            return TransferRequest::where('id', $id)->delete();
         }
+        return false;
     }
 
-    public function isExists($id)
+    /**
+     * Check if a transfer request exists by ID.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function isExists(int $id): bool
     {
-        return TransferRequest::where('id',$id)->exists();
+        return TransferRequest::where('id', $id)->exists();
     }
 
-    public function getAllPendingRequests($status)
+    /**
+     * Get all transfer requests with a specific status.
+     *
+     * @param string $status
+     * @return Collection
+     */
+    public function getAllPendingRequests(string $status): Collection
     {
         return TransferRequest::where('status', trim($status))->get();
     }
 
-    public function getLatestTransferRequests()
+    /**
+     * Get the latest five pending transfer requests with branch and product details.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getLatestTransferRequests(): \Illuminate\Support\Collection
     {
         return DB::table('transfer_requests as t')
             ->join('branches as fb', 't.from_branch_id', '=', 'fb.id')
@@ -78,12 +125,24 @@ class TransferRequestRepository implements ITransferRequest
             ->get();
     }
 
-    public function countPendingRequests()
+    /**
+     * Count the number of pending transfer requests.
+     *
+     * @return int
+     */
+    public function countPendingRequests(): int
     {
         return TransferRequest::where('status', 'pending')->count();
     }
 
-    public function getOneByStatus($id, $status)
+    /**
+     * Get a transfer request by ID and status.
+     *
+     * @param int $id
+     * @param string $status
+     * @return object|null
+     */
+    public function getOneByStatus(int $id, string $status): ?object
     {
         return TransferRequest::query()
             ->where('id', $id)

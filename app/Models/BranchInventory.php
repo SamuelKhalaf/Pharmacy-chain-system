@@ -27,12 +27,18 @@ class BranchInventory extends Model
         'critical_level',
     ];
 
-    public function getProductNameAttribute()
+    /**
+     * @return string
+     */
+    public function getProductNameAttribute(): string
     {
         return Product::where('id',$this->product_id)->pluck('name')->first() ?? 'N/A';
     }
 
-    public function getBranchNameAttribute()
+    /**
+     * @return string
+     */
+    public function getBranchNameAttribute(): string
     {
         return Branch::where('id',$this->branch_id)->pluck('name')->first() ?? 'N/A';
     }
