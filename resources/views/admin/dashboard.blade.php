@@ -172,7 +172,6 @@
                     dataType: "json",
                     data: { month: month, year: year },
                     success: function (data) {
-                        console.log("Fetched Data:", data);
                         updateChart(data);
                     },
                     error: function (xhr) {
@@ -224,7 +223,6 @@
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
-                    console.log("Initial Data:", data);
                     updateChart(data);
                 },
                 error: function (xhr) {
@@ -261,7 +259,6 @@
                     let productRow = `
                     <tr>
                         <td>
-                            <img src="dist/img/default-150x150.png" class="img-circle img-size-32 mr-2">
                             ${product.name}
                         </td>
                         <td>$${product.price} USD</td>

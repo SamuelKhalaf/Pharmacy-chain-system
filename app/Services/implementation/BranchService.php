@@ -6,6 +6,7 @@ use App\Repositories\IBranch;
 use App\Repositories\IBranchInventory;
 use App\Services\IBranchService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class BranchService implements IBranchService
@@ -28,9 +29,9 @@ class BranchService implements IBranchService
     /**
      * Get all branches.
      *
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function getAllBranches(): Collection
+    public function getAllBranches(): LengthAwarePaginator
     {
         return $this->branchRepository->getAll();
     }

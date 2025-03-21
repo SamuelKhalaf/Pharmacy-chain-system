@@ -105,7 +105,7 @@ class BranchInventoryRepository implements IBranchInventory
             }
 
             DB::commit();
-            return $newInventoryRecords;
+            return true;
         } catch (\Exception $e) {
             DB::rollBack();
             return false;

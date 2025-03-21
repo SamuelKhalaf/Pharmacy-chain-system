@@ -38,13 +38,13 @@
                             <div class="card-body">
                                 <table id="example2" class="table table-bordered table-hover">
                                     <thead>
-                                    <tr>
-                                        <th>name</th>
-                                        <th>email</th>
-                                        <th>role</th>
-                                        <th>branch</th>
-                                        <th>actions</th>
-                                    </tr>
+                                        <tr>
+                                            <th>name</th>
+                                            <th>email</th>
+                                            <th>role</th>
+                                            <th>branch</th>
+                                            <th>actions</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                     @if(!empty($admins))

@@ -3,15 +3,16 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface IBranchService
 {
     /**
      * Get all branches.
      *
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function getAllBranches(): Collection;
+    public function getAllBranches(): LengthAwarePaginator;
 
     /**
      * Get all branches without the authenticated admin branch.

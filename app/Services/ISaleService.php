@@ -50,9 +50,9 @@ interface ISaleService
      *
      * @param array $data
      * @param int $id
-     * @return mixed
+     * @return void
      */
-    public function updateSaleWithItems(array $data, int $id): mixed;
+    public function updateSaleWithItems(array $data, int $id): void;
 
     /**
      * Remove a sale by ID.

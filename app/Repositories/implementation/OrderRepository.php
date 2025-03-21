@@ -29,22 +29,26 @@ class OrderRepository implements IOrder
     {
         $orders = DB::table('orders')
             ->join('branches', 'orders.branch_id', '=', 'branches.id')
+            ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->leftJoin('products', 'order_items.product_id', '=', 'products.id')
             ->select([
                 'orders.id',
                 'orders.total_price',
                 'orders.status',
                 'orders.branch_id',
-                'branches.name as branch_name'
+                'branches.name as branch_name',
+                DB::raw('JSON_ARRAYAGG(JSON_OBJECT(
+                    "order_item_id", order_items.id,
+                    "quantity", order_items.quantity,
+                    "one_piece_price", order_items.price,
+                    "product_id", order_items.product_id,
+                    "product_name", products.name
+                )) as order_items')
             ])
+            ->groupBy('orders.id')
             ->get();
 
-        if ($orders->isEmpty()) {
-            return null;
-        }
-        foreach ($orders as $order) {
-            $order->orderItems = $this->getOrderItems($order->id);
-        }
-        return $orders;
+        return $orders->isEmpty() ? null : $orders;
     }
 
     /**

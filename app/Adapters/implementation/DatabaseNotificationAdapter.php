@@ -3,15 +3,14 @@
 namespace App\Adapters\implementation;
 
 use App\Adapters\INotification;
-use App\Services\INotificationService;
 
 class DatabaseNotificationAdapter implements INotification
 {
-    protected INotificationService $notificationService;
+    protected \App\Repositories\INotification $notificationRepository;
 
-    public function __construct(INotificationService $notificationService)
+    public function __construct(\App\Repositories\INotification  $notificationRepository)
     {
-        $this->notificationService = $notificationService;
+        $this->notificationRepository = $notificationRepository;
     }
     /**
      * Send a notification using the notification service.
@@ -21,6 +20,6 @@ class DatabaseNotificationAdapter implements INotification
      */
     public function send(array $data): void
     {
-        $this->notificationService->createNotification($data);
+        $this->notificationRepository->create($data);
     }
 }

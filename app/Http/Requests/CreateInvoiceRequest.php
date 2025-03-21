@@ -12,7 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property array<int> $product_id
  * @property array<int> $quantity
  */
-class createInvoiceRequest extends FormRequest
+class CreateInvoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -10,7 +10,7 @@ use App\Http\Controllers\admin\NotificationController;
 use App\Http\Controllers\admin\PharmacyController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ReportsController;
-use App\Http\Controllers\admin\salesController;
+use App\Http\Controllers\admin\SalesController;
 use App\Http\Controllers\admin\TransferProductsController;
 use App\Http\Controllers\admin\TransferRequestController;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +20,7 @@ use Illuminate\Support\Facades\Route;
 | Admin Routes
 |--------------------------------------------------------------------------
 */
-
-Route::get('/home', function () {
-    return view('home-page');
-});
-
+Route::get('/', function () {return view('welcome');});
 
 Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function () {
 
@@ -111,7 +107,7 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth:admin'] , function
         ########################### End Request Products #################################
     });
     // CRUD sales (invoices)
-    Route::resource('invoice',salesController::class)->except(['edit','update']);
+    Route::resource('invoice',SalesController::class)->except(['edit','update']);
     // admin logout
     Route::post('/admin/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
 });
